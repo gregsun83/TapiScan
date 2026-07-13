@@ -826,11 +826,13 @@ document.querySelectorAll('.mobile-nav-drawer a').forEach(function(a) {
 // ── HERO CHAT ANIMATION ──
 var heroMessages = [
   { side: 'out', es: 'Hola, ¿tienen mesa para 2 esta noche?', en: 'Hi, do you have a table for 2 tonight?' },
-  { side: 'in',  es: 'Claro. ¿A qué hora prefieren?', en: 'Of course. What time works for you?' },
+  { side: 'in',  es: 'Claro. ¿A qué hora les gustaría venir?', en: 'Of course. What time would you like to come in?' },
   { side: 'out', es: 'A las 8.', en: 'At 8.' },
-  { side: 'in',  es: 'Perfecto. Mesa para 2 a las 8:00 p.m. confirmada. Código RSV-0941.', en: 'Perfect. Table for 2 at 8:00 p.m. confirmed. Code RSV-0941.' }
+  { side: 'in',  es: 'Tengo disponibilidad a las 8:00 p.m. ¿A nombre de quién hago la reserva?', en: 'I have availability at 8:00 p.m. May I have a name and phone number for the reservation?' },
+  { side: 'out', es: 'Ana. Mi número es 6123-4567.', en: 'Ana. My number is 6123-4567.' },
+  { side: 'in',  es: 'Perfecto, Ana. Tu mesa para 2 queda confirmada para hoy a las 8:00 p.m. Código RSV-0941.', en: 'Perfect, Ana. Your table for 2 is confirmed for tonight at 8:00 p.m. Reservation code RSV-0941.' }
 ];
-var heroTimes = ['8:14 p.m.', '8:14 p.m.', '8:15 p.m.', '8:15 p.m.'];
+var heroTimes = ['8:14 p.m.', '8:14 p.m.', '8:15 p.m.', '8:15 p.m.', '8:16 p.m.', '8:16 p.m.'];
 var heroChatTimer = null;
 
 function runHeroChat() {
@@ -891,8 +893,8 @@ function runHeroChat() {
 // ── DEMO CHAT (RESERVATION MOCKUP) ──
 var demoMessages = [
   { side: 'out', text: 'Hi, do you have a table for 4 tomorrow at 8pm?' },
-  { side: 'in',  text: 'Of course. A table for 4 tomorrow at 8:00 p.m. May I have a name for the reservation?' },
-  { side: 'out', text: 'Sarah' },
+  { side: 'in',  text: 'Of course. I have availability tomorrow at 8:00 p.m. May I have a name and phone number for the reservation?' },
+  { side: 'out', text: 'Sarah. My number is 6123-4567.' },
   { side: 'in',  text: 'Perfect, Sarah. Your table for 4 is confirmed for tomorrow at 8:00 p.m. Reservation code RSV-1042. We look forward to seeing you.' }
 ];
 var demoTimes = ['7:58 p.m.', '7:58 p.m.', '7:59 p.m.', '7:59 p.m.'];
