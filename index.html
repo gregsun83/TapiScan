@@ -3,1803 +3,982 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TapiScan — Menús NFC y QR para Restaurantes</title>
+<title>TapiScan — La recepcionista de WhatsApp para tu restaurante</title>
 
 <!-- Security Meta Headers -->
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
 <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
-<meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' 'unsafe-inline' /cdn-cgi/scripts/;
-  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src https://fonts.gstatic.com;
-  img-src 'self' data:;
-  connect-src 'none';
-  frame-src 'none';
-  object-src 'none';
-  base-uri 'self';
-  form-action 'none';
-">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' /cdn-cgi/scripts/; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'none'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none';">
 
 <!-- SEO / Open Graph -->
-<meta name="description" content="Menús NFC y QR para restaurantes en Panamá. Sin apps, sin impresiones, actualización en tiempo real.">
-<meta property="og:title" content="TapiScan — Menús NFC y QR para Restaurantes">
-<meta property="og:description" content="Menús NFC y QR para restaurantes en Panamá. Sin apps, sin impresiones, actualización en tiempo real.">
+<meta name="description" content="TapiScan responde el WhatsApp de tu restaurante 24/7, muestra tu menú bilingüe y confirma reservas — para que no pierdas clientes cuando estás ocupado.">
+<meta property="og:title" content="TapiScan — La recepcionista de WhatsApp para tu restaurante">
+<meta property="og:description" content="Responde preguntas frecuentes, muestra tu menú bilingüe y confirma reservas en español e inglés.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#0A0C10">
+<meta name="theme-color" content="#25D366">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-  /* ── CSS CUSTOM PROPERTIES ── */
-  :root {
-    --bg: #0A0C10;
-    --surface: #11141A;
-    --surface2: #161B24;
-    --border: rgba(255,255,255,0.07);
-    --blue: #3B82F6;
-    --blue-bright: #60A5FA;
-    --blue-dim: rgba(59,130,246,0.15);
-    --blue-glow: rgba(59,130,246,0.3);
-    --text: #F0F4FF;
-    --muted: #8892A4;
-    --muted2: #5A6478;
-    --green-check: #34D399;
-    --red-cross: #F87171;
-    --gold: #FBBF24;
-    --wa-green: #25D366;
-    --wa-green-hover: #1ebe5a;
-    --radius-sm: 8px;
-    --radius-md: 12px;
-    --radius-lg: 18px;
-    --radius-xl: 24px;
-    --transition-fast: 0.2s ease;
-    --transition-base: 0.3s ease;
-    --transition-slow: 0.6s ease;
-  }
+/* ── CSS CUSTOM PROPERTIES ── */
+:root {
+  --bg: #FFFFFF;
+  --bg-soft: #F8F9FB;
+  --bg-card: #FFFFFF;
+  --bg-section: #F4F6F9;
+  --text: #0F172A;
+  --text-sub: #334155;
+  --text-muted: #64748B;
+  --wa-green: #25D366;
+  --wa-green-dark: #128C4A;
+  --wa-green-hover: #1DAB54;
+  --wa-bubble-out: #DCF8C6;
+  --wa-bubble-in: #FFFFFF;
+  --accent: #1E3A5F;
+  --accent-light: #EEF4FF;
+  --blue: #3B82F6;
+  --border: rgba(15,23,42,0.08);
+  --border-strong: rgba(15,23,42,0.15);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06),0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.08),0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 40px rgba(0,0,0,0.10),0 4px 12px rgba(0,0,0,0.05);
+  --shadow-xl: 0 20px 60px rgba(0,0,0,0.12),0 8px 20px rgba(0,0,0,0.06);
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 18px;
+  --r-xl: 24px;
+  --r-full: 9999px;
+  --t-fast: 0.18s ease;
+  --t-base: 0.28s ease;
+  --t-slow: 0.5s cubic-bezier(0.22,1,0.36,1);
+}
 
-  /* ── RESET ── */
-  *, *::before, *::after {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+/* ── RESET ── */
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100vw; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter',sans-serif; font-size: 16px; line-height: 1.6; overflow-x: hidden; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: inherit; }
+ul { list-style: none; }
 
-  html { scroll-behavior: smooth; }
+/* ── SKIP LINK ── */
+.skip-link {
+  position: absolute; top: -100px; left: 1rem; z-index: 9999;
+  background: var(--wa-green); color: #fff; padding: 0.5rem 1rem;
+  border-radius: var(--r-sm); text-decoration: none; font-weight: 600;
+  transition: top var(--t-fast);
+}
+.skip-link:focus { top: 1rem; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    width: 100%;
-    max-width: 100vw;
-  }
+/* ── LAYOUT UTILITIES ── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
+.section { padding: 5rem 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 
-  /* ── NOISE TEXTURE ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
-  }
+/* ── SCROLL REVEAL ── */
+.fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
 
-  /* ── SKIP LINK (accessibility) ── */
-  .skip-link {
-    position: absolute;
-    top: -100%;
-    left: 1rem;
-    background: var(--blue);
-    color: #fff;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: 0.875rem;
-    text-decoration: none;
-    z-index: 10000;
-    transition: top var(--transition-fast);
-  }
-  .skip-link:focus { top: 1rem; }
+/* ── SECTION LABELS ── */
+.section-label {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--wa-green); margin-bottom: 1rem;
+}
+.section-sub { font-size: 1.05rem; color: var(--text-sub); max-width: 600px; margin: 1rem 0 3rem; line-height: 1.7; }
 
-  /* ── NAVBAR ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 5%;
-    height: 60px;
-    background: rgba(10,12,16,0.92);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    transition: background var(--transition-base), box-shadow var(--transition-base);
-  }
-  nav.scrolled {
-    background: rgba(10,12,16,0.98);
-    box-shadow: 0 4px 40px rgba(0,0,0,0.5);
-  }
-  .nav-logo img {
-    height: 50px;
-    object-fit: contain;
-    filter: brightness(1.1);
-  }
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    list-style: none;
-  }
-  .nav-links a {
-    color: var(--muted);
-    text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    transition: color var(--transition-fast);
-  }
-  .nav-links a:hover,
-  .nav-links a:focus-visible { color: var(--text); }
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .lang-toggle {
-    display: flex;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
-    font-size: 0.75rem;
-    font-weight: 600;
-  }
-  .lang-toggle button {
-    padding: 5px 10px;
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    cursor: pointer;
-    transition: background var(--transition-fast), color var(--transition-fast);
-    letter-spacing: 0.05em;
-  }
-  .lang-toggle button.active {
-    background: var(--blue);
-    color: #fff;
-  }
-  .btn-nav-wa {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--wa-green);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 8px 14px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background var(--transition-fast), transform var(--transition-fast);
-    white-space: nowrap;
-  }
-  .btn-nav-wa:hover,
-  .btn-nav-wa:focus-visible {
-    background: var(--wa-green-hover);
-    transform: translateY(-1px);
-  }
+/* ── TYPOGRAPHY ── */
+.t-display { font-size: clamp(2.4rem,5vw,4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+.t-h1 { font-size: clamp(1.8rem,3.5vw,2.8rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+.t-h2 { font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 700; line-height: 1.25; }
+.t-h3 { font-size: clamp(1.1rem,1.8vw,1.4rem); font-weight: 600; line-height: 1.35; }
 
-  /* Hamburger */
-  .hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-    padding: 4px;
-    background: none;
-    border: none;
-    color: inherit;
-  }
-  .hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--text);
-    border-radius: 2px;
-    transition: all var(--transition-base);
-  }
+/* ── BUTTONS ── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--wa-green); color: #fff;
+  border: none; border-radius: var(--r-md); padding: 14px 24px;
+  font-size: 1rem; font-weight: 700; text-decoration: none; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(37,211,102,0.35);
+  transition: background var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+}
+.btn-primary:hover { background: var(--wa-green-hover); transform: translateY(-2px); box-shadow: 0 6px 28px rgba(37,211,102,0.45); }
+.btn-primary--white { background: #fff; color: #065F46; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+.btn-primary--white:hover { background: #F0FDF4; transform: translateY(-2px); box-shadow: 0 6px 28px rgba(0,0,0,0.25); }
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: transparent; color: var(--text-sub);
+  border: 1.5px solid var(--border-strong); border-radius: var(--r-md); padding: 13px 22px;
+  font-size: 1rem; font-weight: 600; text-decoration: none; cursor: pointer;
+  transition: border-color var(--t-fast), color var(--t-fast), background var(--t-fast);
+}
+.btn-secondary:hover { border-color: var(--text-sub); background: var(--bg-section); color: var(--text); }
 
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    padding: 88px 5% 60px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-bg-glow {
-    position: absolute;
-    top: -20%;
-    right: -10%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(59,130,246,0.10) 0%, transparent 70%);
-    pointer-events: none;
-    aria-hidden: true;
-  }
-  .hero-grid-lines {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 60px 60px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 100%);
-    pointer-events: none;
-  }
-  .hero-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-  }
-  .hero-left { display: flex; flex-direction: column; gap: 1.5rem; }
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--blue-dim);
-    border: 1px solid rgba(59,130,246,0.3);
-    border-radius: 100px;
-    padding: 6px 14px;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--blue-bright);
-    letter-spacing: 0.05em;
-    width: fit-content;
-  }
-  .hero-badge-dot {
-    width: 6px; height: 6px;
-    background: var(--blue-bright);
-    border-radius: 50%;
-    animation: pulse-dot 2s ease-in-out infinite;
-    flex-shrink: 0;
-  }
-  @keyframes pulse-dot {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(0.7); }
-  }
-  .hero-logo {
-    height: 190px;
-    object-fit: contain;
-    filter: brightness(1.1);
-    margin-bottom: 0.25rem;
-  }
-  .hero-headline {
-    font-size: clamp(2rem, 4vw, 3.4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-  }
-  .hero-headline .accent {
-    background: linear-gradient(135deg, var(--blue-bright), #818CF8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero-sub {
-    font-size: 1.05rem;
-    color: var(--muted);
-    font-weight: 400;
-    max-width: 480px;
-    line-height: 1.7;
-  }
-  .hero-buttons { display: flex; gap: 1rem; flex-wrap: wrap; }
+/* ── NAVBAR ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%; height: 64px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: box-shadow var(--t-base);
+}
+nav.scrolled { box-shadow: var(--shadow-md); }
+.nav-logo img { height: 40px; object-fit: contain; }
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a {
+  color: var(--text-muted); text-decoration: none;
+  font-size: 0.9rem; font-weight: 500; letter-spacing: 0.01em;
+  transition: color var(--t-fast);
+}
+.nav-links a:hover { color: var(--text); }
+.nav-right { display: flex; align-items: center; gap: 0.75rem; }
+.lang-toggle {
+  display: flex; background: var(--bg-section);
+  border: 1px solid var(--border); border-radius: var(--r-sm); overflow: hidden;
+}
+.lang-toggle button {
+  padding: 5px 10px; background: transparent; border: none;
+  color: var(--text-muted); cursor: pointer; font-size: 0.75rem; font-weight: 600;
+  transition: background var(--t-fast), color var(--t-fast);
+}
+.lang-toggle button.active { background: var(--wa-green); color: #fff; }
+.btn-nav-wa {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--wa-green); color: #fff;
+  border: none; border-radius: var(--r-sm);
+  padding: 8px 14px; font-size: 0.82rem; font-weight: 600;
+  text-decoration: none; white-space: nowrap;
+  transition: background var(--t-fast), transform var(--t-fast);
+}
+.btn-nav-wa:hover { background: var(--wa-green-hover); transform: translateY(-1px); }
+.nav-mobile-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-mobile-toggle span { display: block; width: 22px; height: 2px; background: var(--text); border-radius: 2px; transition: transform var(--t-base), opacity var(--t-base); }
+.mobile-nav-drawer {
+  display: none; position: fixed; top: 64px; left: 0; right: 0;
+  background: #fff; border-bottom: 1px solid var(--border);
+  padding: 1rem 5%; z-index: 999; flex-direction: column; gap: 1rem;
+}
+.mobile-nav-drawer.open { display: flex; }
+.mobile-nav-drawer a { color: var(--text-sub); text-decoration: none; font-weight: 500; font-size: 1rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+.mobile-nav-drawer a:last-child { border-bottom: none; }
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .nav-mobile-toggle { display: flex; }
+  .btn-nav-wa span { display: none; }
+}
 
-  /* ── BUTTONS ── */
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: var(--blue);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 14px 24px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
-    box-shadow: 0 4px 24px rgba(59,130,246,0.35);
-  }
-  .btn-primary:hover,
-  .btn-primary:focus-visible {
-    background: #2563EB;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(59,130,246,0.45);
-  }
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 24px;
-    font-size: 0.95rem;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: border-color var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
-  }
-  .btn-secondary:hover,
-  .btn-secondary:focus-visible {
-    border-color: rgba(255,255,255,0.2);
-    background: var(--surface);
-    transform: translateY(-2px);
-  }
+/* ── HERO ── */
+.hero { min-height: 100vh; display: flex; align-items: center; padding: 100px 5% 5rem; background: var(--bg); }
+.hero-inner { width: 100%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.hero-eyebrow {
+  display: inline-block; background: #DCFCE7; color: var(--wa-green-dark);
+  border-radius: var(--r-full); padding: 4px 14px;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.04em;
+  margin-bottom: 1.25rem;
+}
+.hero h1 { font-size: clamp(2.2rem,4.5vw,3.6rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: var(--text); margin-bottom: 1.25rem; }
+.hero h1 .accent { color: var(--wa-green); }
+.hero-sub { font-size: clamp(1rem,1.5vw,1.15rem); color: var(--text-sub); line-height: 1.7; max-width: 520px; margin-bottom: 0.75rem; }
+.hero-en-tagline { font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-bottom: 2rem; }
+.hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; }
+.hero-number { font-size: 0.82rem; color: var(--text-muted); }
+.hero-number a { color: var(--wa-green); text-decoration: none; font-weight: 600; }
 
-  /* ── FOCUS STYLES (accessibility) ── */
-  a:focus-visible,
-  button:focus-visible {
-    outline: 2px solid var(--blue-bright);
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
+/* Phone mockup */
+.hero-phone { display: flex; justify-content: center; align-items: center; }
+.phone-frame {
+  width: 280px; height: 560px; background: #1a1a1a;
+  border-radius: 40px; padding: 12px;
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255,255,255,0.06);
+}
+.phone-frame--tall { height: 520px; }
+.phone-screen { background: #ECE5DD; border-radius: 30px; height: 100%; overflow: hidden; display: flex; flex-direction: column; }
+.wa-header { background: #075E54; color: #fff; display: flex; align-items: center; gap: 10px; padding: 10px 14px; flex-shrink: 0; }
+.wa-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--wa-green); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+.wa-name { font-size: 0.85rem; font-weight: 600; }
+.wa-status { font-size: 0.7rem; opacity: 0.8; }
+.wa-messages { flex: 1; overflow-y: auto; padding: 12px 8px; display: flex; flex-direction: column; gap: 6px; }
+.wa-bubble {
+  max-width: 82%; padding: 7px 10px; border-radius: 10px;
+  font-size: 0.75rem; line-height: 1.4; position: relative;
+  animation: bubbleIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.wa-bubble.out { background: var(--wa-bubble-out); align-self: flex-end; border-bottom-right-radius: 3px; }
+.wa-bubble.in { background: var(--wa-bubble-in); align-self: flex-start; border-bottom-left-radius: 3px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.wa-time { font-size: 0.6rem; color: #92a0a8; text-align: right; margin-top: 2px; }
+.wa-typing { background: #fff; border-radius: 10px; border-bottom-left-radius: 3px; padding: 10px 14px; align-self: flex-start; box-shadow: 0 1px 2px rgba(0,0,0,0.1); display: flex; gap: 3px; }
+.wa-typing span { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #92a0a8; animation: typingDot 1.2s infinite; }
+.wa-typing span:nth-child(2) { animation-delay: 0.2s; }
+.wa-typing span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingDot { 0%,60%,100% { opacity: 0.2; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-3px); } }
+@keyframes bubbleIn { from { opacity: 0; transform: scale(0.8) translateY(8px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-  .hero-right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .hero-card {
-    background: linear-gradient(135deg, var(--surface2) 0%, #1a1f2e 100%);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: 2rem;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.07);
-    width: 100%;
-    max-width: 380px;
-  }
-  .hero-card::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(circle at 60% 40%, rgba(59,130,246,0.08) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .hero-stand-img {
-    width: 100%;
-    max-width: 300px;
-    border-radius: 16px;
-    display: block;
-    margin: 0 auto;
-    filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));
-    transition: transform 0.4s ease;
-  }
-  .hero-card:hover .hero-stand-img { transform: translateY(-6px) scale(1.02); }
-  .hero-card-customize {
-    margin-top: 1rem;
-    text-align: center;
-    background: rgba(59,130,246,0.08);
-    border: 1px dashed rgba(59,130,246,0.3);
-    border-radius: 10px;
-    padding: 8px 12px;
-    font-size: 0.75rem;
-    color: var(--blue-bright);
-    font-weight: 500;
-  }
+@media (max-width: 900px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+  .hero-phone { order: -1; }
+  .phone-frame { width: 240px; height: 460px; }
+}
+@media (max-width: 480px) {
+  .hero-ctas { flex-direction: column; }
+  .btn-primary, .btn-secondary { justify-content: center; }
+}
 
-  /* ── TRUST BAR ── */
-  .trust-bar {
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 5%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 2.5rem;
-    flex-wrap: wrap;
-    background: var(--surface);
-  }
-  .trust-item {
-    color: var(--muted2);
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.01em;
-  }
-  .trust-sep {
-    width: 1px;
-    height: 16px;
-    background: var(--border);
-    flex-shrink: 0;
-  }
+/* ── PAIN SECTION ── */
+.pain-section { background: var(--bg-section); }
+.pain-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+@media (max-width: 768px) { .pain-grid { grid-template-columns: 1fr; } }
+.pain-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 1.75rem;
+  box-shadow: var(--shadow-sm); position: relative; overflow: hidden;
+}
+.pain-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg,var(--wa-green),transparent); }
+.pain-card-icon { width: 44px; height: 44px; border-radius: var(--r-md); background: #FEF9C3; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: #CA8A04; }
+.pain-card-icon svg { width: 22px; height: 22px; }
+.pain-card h3 { font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 0.6rem; }
+.pain-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.65; }
 
-  /* ── SECTION WRAPPER ── */
-  section { padding: 80px 5%; }
-  .section-inner { max-width: 1200px; margin: 0 auto; }
+/* ── FLOW SECTION ── */
+.flow-section { background: var(--bg); }
+.flow-steps { display: grid; grid-template-columns: repeat(5,1fr); gap: 1rem; margin-top: 3rem; position: relative; }
+.flow-steps::before { content: ''; position: absolute; top: 32px; left: 10%; right: 10%; height: 2px; background: linear-gradient(90deg,var(--wa-green) 0%,#E2E8F0 100%); z-index: 0; }
+.flow-step { display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; z-index: 1; }
+.flow-step-num { width: 64px; height: 64px; border-radius: 50%; background: #fff; border: 2px solid var(--wa-green); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; margin-bottom: 1rem; box-shadow: var(--shadow-md); flex-shrink: 0; }
+.flow-step h4 { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+.flow-step p { font-size: 0.78rem; color: var(--text-muted); line-height: 1.55; }
+@media (max-width: 768px) {
+  .flow-steps { grid-template-columns: 1fr; gap: 1.5rem; }
+  .flow-steps::before { display: none; }
+  .flow-step { flex-direction: row; align-items: flex-start; text-align: left; gap: 1rem; }
+  .flow-step-num { min-width: 48px; width: 48px; height: 48px; font-size: 1rem; margin-bottom: 0; }
+}
 
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--blue-bright);
-    font-size: 0.72rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 18px;
-    height: 2px;
-    background: var(--blue);
-    border-radius: 2px;
-    flex-shrink: 0;
-  }
-  .section-title {
-    font-size: clamp(1.7rem, 3vw, 2.6rem);
-    font-weight: 800;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.75rem;
-  }
-  .section-sub {
-    color: var(--muted);
-    font-size: 1rem;
-    max-width: 520px;
-    line-height: 1.7;
-  }
+/* ── MOCKUP SECTION ── */
+.mockup-section { background: var(--bg-section); }
+.mockup-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+@media (max-width: 768px) { .mockup-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+.mockup-phone-wrap { display: flex; justify-content: center; }
+.mockup-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 1.5rem; box-shadow: var(--shadow-lg); }
+.panel-header { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; font-weight: 600; color: var(--text-muted); border-bottom: 1px solid var(--border); padding-bottom: 1rem; margin-bottom: 1.25rem; }
+.panel-dot { width: 8px; height: 8px; border-radius: 50%; }
+.panel-dot--green { background: var(--wa-green); }
+.panel-notif { transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(8px); opacity: 0; }
+.panel-notif.visible { opacity: 1; transform: translateY(0); }
+.panel-notif-badge { display: inline-block; background: #DCFCE7; color: var(--wa-green-dark); border-radius: var(--r-full); padding: 3px 10px; font-size: 0.72rem; font-weight: 700; margin-bottom: 0.75rem; }
+.panel-notif-name { font-size: 1.3rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+.panel-notif-detail { font-size: 0.88rem; color: var(--text-sub); margin-bottom: 0.5rem; }
+.panel-notif-code { font-family: monospace; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.75rem; }
+.panel-notif-status { display: inline-block; background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0; border-radius: var(--r-sm); padding: 4px 10px; font-size: 0.75rem; font-weight: 600; }
+.panel-placeholder { display: flex; flex-direction: column; gap: 0.5rem; }
+.panel-ph-line { height: 12px; background: var(--bg-section); border-radius: 6px; }
 
-  /* ── BEFORE / AFTER ── */
-  #problema {
-    background: linear-gradient(180deg, var(--bg) 0%, #0D1117 100%);
-  }
-  .problema-header { margin-bottom: 2.5rem; }
-  .before-after-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-  .ba-card {
-    border-radius: var(--radius-lg);
-    padding: 1.75rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  .ba-card.before {
-    background: rgba(239,68,68,0.04);
-    border: 1px solid rgba(239,68,68,0.15);
-  }
-  .ba-card.after {
-    background: rgba(59,130,246,0.06);
-    border: 1px solid rgba(59,130,246,0.2);
-  }
-  .ba-label {
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 0.25rem;
-  }
-  .ba-label.red { color: var(--red-cross); }
-  .ba-label.blue { color: var(--blue-bright); }
-  .ba-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.9rem;
-    color: var(--muted);
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .ba-row:last-child { border-bottom: none; padding-bottom: 0; }
-  .ba-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .ba-dot.red { background: var(--red-cross); }
-  .ba-dot.green { background: var(--green-check); }
-  .ba-row.positive { color: var(--text); }
+/* ── INCLUDES SECTION ── */
+.includes-section { background: var(--bg); }
+.includes-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(240px,1fr)); gap: 1.25rem; margin-top: 3rem; }
+.include-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); transition: box-shadow var(--t-base), transform var(--t-base), border-color var(--t-base); }
+.include-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: rgba(37,211,102,0.25); }
+.include-icon { width: 44px; height: 44px; border-radius: var(--r-md); background: #F0FDF4; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; color: var(--wa-green); }
+.include-icon svg { width: 22px; height: 22px; }
+.include-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+.include-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.6; }
 
-  /* ── NFC ANIMATION SECTION ── */
-  #demo {
-    background: #080B0F;
-    position: relative;
-    overflow: hidden;
-    padding: 80px 5% 60px;
-  }
-  #demo::before {
-    content: '';
-    position: absolute;
-    bottom: -100px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 700px;
-    height: 350px;
-    background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .demo-header { text-align: center; margin-bottom: 3rem; }
+/* ── TRUST SECTION ── */
+.trust-section { background: var(--bg-section); }
+.trust-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3rem; }
+@media (max-width: 600px) { .trust-grid { grid-template-columns: 1fr; } }
+.trust-col { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 1.75rem; }
+.trust-col-header { display: flex; align-items: center; gap: 10px; font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; color: var(--text); }
+.trust-item { display: flex; align-items: flex-start; gap: 10px; padding: 0.6rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; color: var(--text-sub); }
+.trust-item:last-child { border-bottom: none; }
+.trust-item svg { min-width: 16px; margin-top: 2px; flex-shrink: 0; }
+.trust-check { color: #16A34A; }
+.trust-x { color: #DC2626; }
 
-  .demo-stage {
-    position: relative;
-    height: 480px;
-    max-width: 800px;
-    margin: 0 auto;
-    overflow: hidden;
-  }
-  .demo-stand {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 200px;
-    z-index: 2;
-  }
-  .demo-stand img {
-    width: 100%;
-    filter: drop-shadow(0 16px 32px rgba(0,0,0,0.8));
-    display: block;
-  }
-  .demo-phone {
-    position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 240px;
-    z-index: 3;
-    transition:
-      right 0.8s cubic-bezier(0.25,0.46,0.45,0.94),
-      opacity 0.5s ease,
-      transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
-    will-change: right, opacity;
-  }
-  .demo-phone img {
-    width: 100%;
-    display: block;
-    filter: drop-shadow(0 12px 30px rgba(0,0,0,0.7));
-  }
+/* ── NFC SECTION ── */
+.nfc-section { background: var(--bg); overflow: hidden; }
+.nfc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+@media (max-width: 768px) { .nfc-grid { grid-template-columns: 1fr; } }
+.nfc-image-wrap { display: flex; justify-content: center; }
+.nfc-image-wrap img { max-height: 320px; max-width: 100%; object-fit: contain; filter: drop-shadow(0 8px 24px rgba(0,0,0,0.12)); }
+.nfc-list { list-style: none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.nfc-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 0.9rem; color: var(--text-sub); }
+.nfc-list li svg { min-width: 18px; color: var(--wa-green); margin-top: 1px; flex-shrink: 0; }
 
-  /* NFC pulse rings */
-  .nfc-pulse-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 4;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-  }
-  .nfc-pulse-container.active { opacity: 1; }
-  .nfc-ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 2px solid var(--blue);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-  }
-  .nfc-ring:nth-child(1) { width: 80px; height: 80px; }
-  .nfc-ring:nth-child(2) { width: 130px; height: 130px; }
-  .nfc-ring:nth-child(3) { width: 185px; height: 185px; }
-  .nfc-ring.animating { animation: nfc-expand 1.6s ease-out infinite; }
-  .nfc-ring:nth-child(2).animating { animation-delay: 0.35s; }
-  .nfc-ring:nth-child(3).animating { animation-delay: 0.7s; }
-  @keyframes nfc-expand {
-    0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.9; }
-    60%  { opacity: 0.4; }
-    100% { transform: translate(-50%,-50%) scale(1); opacity: 0; }
-  }
+/* ── FINAL CTA ── */
+.final-cta-section { background: linear-gradient(135deg,#064E3B 0%,#065F46 100%); color: #fff; text-align: center; }
+.final-cta-section h2 { color: #fff; font-size: clamp(1.6rem,3vw,2.4rem); margin-bottom: 1rem; }
+.final-cta-section p { color: rgba(255,255,255,0.8); max-width: 560px; margin: 0 auto 2.5rem; font-size: 1.05rem; line-height: 1.7; }
 
-  /* Fake menu screen */
-  .phone-screen-menu {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    width: 180px;
-    background: #fff;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 20px 48px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.1);
-    z-index: 10;
-    opacity: 0;
-    transition: opacity 0.6s ease, right 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
-    pointer-events: none;
-  }
-  .phone-screen-menu.visible { opacity: 1; }
-  .psm-header {
-    background: #1a1a2e;
-    padding: 12px 14px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-  }
-  .psm-dot { width: 7px; height: 7px; background: var(--blue); border-radius: 50%; }
-  .psm-title { font-size: 11px; font-weight: 700; color: #fff; }
-  .psm-body { padding: 9px; display: flex; flex-direction: column; gap: 6px; }
-  .psm-item {
-    background: #f8f9fa;
-    border-radius: 7px;
-    padding: 7px 9px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .psm-item-name { font-size: 9px; font-weight: 600; color: #222; }
-  .psm-item-price { font-size: 9px; color: #3B82F6; font-weight: 700; }
-  .psm-emoji { font-size: 14px; }
+/* ── FOOTER ── */
+.footer { background: var(--text); color: rgba(255,255,255,0.6); padding: 1.5rem 5%; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+.footer-logo img { height: 28px; filter: brightness(0) invert(1); opacity: 0.85; }
+.footer-copy { font-size: 0.8rem; }
+.footer-wa { color: var(--wa-green); font-size: 0.85rem; text-decoration: none; font-weight: 500; transition: color var(--t-fast); }
+.footer-wa:hover { color: var(--wa-green-hover); }
+@media (max-width: 500px) { .footer { flex-direction: column; text-align: center; align-items: center; } }
 
-  /* Demo Steps */
-  .demo-steps {
-    display: flex;
-    gap: 0;
-    max-width: 800px;
-    margin: 2.5rem auto 0;
-    position: relative;
-  }
-  .demo-steps::before {
-    content: '';
-    position: absolute;
-    top: 18px;
-    left: 10%;
-    right: 10%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--blue), var(--blue-dim));
-    pointer-events: none;
-  }
-  .demo-step {
-    flex: 1;
-    text-align: center;
-    padding: 0 0.5rem;
-    position: relative;
-    cursor: pointer;
-  }
-  .step-num {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--surface2);
-    border: 2px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 0.6rem;
-    font-weight: 700;
-    font-size: 0.85rem;
-    transition: background var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
-    position: relative;
-    z-index: 1;
-  }
-  .demo-step.active .step-num {
-    background: var(--blue);
-    border-color: var(--blue);
-    box-shadow: 0 0 18px var(--blue-glow);
-  }
-  .step-label { font-size: 0.72rem; color: var(--muted); font-weight: 500; line-height: 1.3; }
-  .demo-step.active .step-label { color: var(--text); }
-
-  /* ── HOW IT WORKS ── */
-  #como-funciona { background: var(--bg); }
-  .how-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    margin-top: 2.5rem;
-  }
-  .how-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 1.75rem;
-    position: relative;
-    overflow: hidden;
-    transition: transform var(--transition-base), border-color var(--transition-base);
-  }
-  .how-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(59,130,246,0.25);
-  }
-  .how-card::before {
-    content: attr(data-num);
-    position: absolute;
-    top: -0.5rem; right: 1.2rem;
-    font-size: 4.5rem;
-    font-weight: 800;
-    color: rgba(59,130,246,0.05);
-    line-height: 1;
-    pointer-events: none;
-  }
-  .how-num {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: var(--blue-dim);
-    border: 1px solid rgba(59,130,246,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 800;
-    color: var(--blue-bright);
-    margin-bottom: 1rem;
-    flex-shrink: 0;
-  }
-  .how-card h3 {
-    font-size: 1.05rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
-  .how-card p { color: var(--muted); font-size: 0.875rem; line-height: 1.6; }
-
-  /* ── FEATURES ── */
-  #funcionalidades { background: var(--surface); }
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.25rem;
-    margin-top: 2.5rem;
-  }
-  .feature-card {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 1.5rem;
-    transition: transform var(--transition-base), border-color var(--transition-base);
-  }
-  .feature-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(59,130,246,0.25);
-  }
-  .feature-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--blue);
-    margin-bottom: 0.9rem;
-  }
-  .feature-card h3 {
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 0.35rem;
-  }
-  .feature-card p { color: var(--muted); font-size: 0.82rem; line-height: 1.55; }
-
-  /* ── REVIEWS ── */
-  #reviews { background: var(--bg); }
-  .reviews-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: center;
-    margin-top: 2.5rem;
-  }
-  .platform-list { display: flex; flex-direction: column; gap: 0.9rem; }
-  .platform-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    padding: 1rem 1.2rem;
-    transition: border-color var(--transition-base), transform var(--transition-base);
-  }
-  .platform-item:hover {
-    border-color: rgba(59,130,246,0.2);
-    transform: translateX(3px);
-  }
-  .platform-initial {
-    width: 38px; height: 38px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 800;
-    flex-shrink: 0;
-    color: #fff;
-  }
-  .platform-item h4 { font-size: 0.9rem; font-weight: 600; margin-bottom: 2px; }
-  .platform-item p { font-size: 0.78rem; color: var(--muted); }
-  .stars { color: var(--gold); font-size: 0.7rem; margin-bottom: 3px; letter-spacing: 1px; }
-
-  .testimonial-card {
-    background: linear-gradient(135deg, var(--surface2), #1a1f2e);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    padding: 2rem;
-  }
-  .testimonial-text {
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--text);
-    margin-bottom: 1.5rem;
-    font-style: italic;
-  }
-  .testimonial-text::before {
-    content: '"';
-    color: var(--blue);
-    font-size: 2rem;
-    line-height: 0;
-    vertical-align: -0.4em;
-  }
-  .testimonial-author { display: flex; align-items: center; gap: 12px; }
-  .author-avatar {
-    width: 42px; height: 42px;
-    border-radius: 50%;
-    background: var(--blue-dim);
-    border: 2px solid rgba(59,130,246,0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    flex-shrink: 0;
-  }
-  .author-name { font-weight: 700; font-size: 0.9rem; }
-  .author-role { color: var(--muted); font-size: 0.78rem; }
-
-  /* ── POS SECTION ── */
-  #pos { background: linear-gradient(180deg, var(--bg) 0%, #0D1117 100%); }
-  .pos-box {
-    background: var(--surface2);
-    border: 1px dashed rgba(59,130,246,0.3);
-    border-radius: 20px;
-    padding: 2.5rem;
-    text-align: center;
-    margin-top: 2.5rem;
-  }
-  .pos-badge {
-    display: inline-block;
-    background: rgba(251,191,36,0.1);
-    border: 1px solid rgba(251,191,36,0.3);
-    border-radius: 100px;
-    padding: 4px 14px;
-    font-size: 0.72rem;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .pos-box h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.6rem; }
-  .pos-box p { color: var(--muted); max-width: 420px; margin: 0 auto 1.75rem; font-size: 0.9rem; }
-  .pos-features {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .pos-chip {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    padding: 7px 14px;
-    font-size: 0.78rem;
-    color: var(--muted);
-  }
-
-  /* ── FAQ ── */
-  #preguntas { background: var(--surface); }
-  .faq-list { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 0.75rem; max-width: 700px; }
-  .faq-item {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-md);
-    overflow: hidden;
-    transition: border-color var(--transition-fast);
-  }
-  .faq-item.open { border-color: rgba(59,130,246,0.3); }
-  .faq-q {
-    padding: 1.1rem 1.4rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.92rem;
-    gap: 1rem;
-    background: none;
-    border: none;
-    color: var(--text);
-    text-align: left;
-    width: 100%;
-    font-family: inherit;
-  }
-  .faq-q:hover,
-  .faq-q:focus-visible { color: var(--blue-bright); }
-  .faq-chevron {
-    width: 22px; height: 22px;
-    background: var(--surface2);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    flex-shrink: 0;
-    transition: background var(--transition-base), color var(--transition-base), transform var(--transition-base);
-    color: var(--muted);
-  }
-  .faq-item.open .faq-chevron {
-    background: var(--blue);
-    color: #fff;
-    transform: rotate(180deg);
-  }
-  .faq-a {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.35s ease, padding 0.35s;
-    color: var(--muted);
-    font-size: 0.88rem;
-    line-height: 1.7;
-    padding: 0 1.4rem;
-  }
-  .faq-item.open .faq-a { max-height: 300px; padding: 0 1.4rem 1.1rem; }
-  .faq-free-note {
-    text-align: center;
-    margin-top: 2rem;
-    color: var(--muted2);
-    font-size: 0.8rem;
-  }
-
-  /* ── FINAL CTA ── */
-  #cta {
-    background: var(--bg);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  #cta::before {
-    content: '';
-    position: absolute;
-    top: -50%; left: 50%;
-    transform: translateX(-50%);
-    width: 600px; height: 500px;
-    background: radial-gradient(ellipse, rgba(59,130,246,0.13) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .cta-inner { position: relative; z-index: 1; }
-  .cta-title {
-    font-size: clamp(1.9rem, 4vw, 3rem);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.75rem;
-  }
-  .cta-sub { color: var(--muted); font-size: 1rem; margin-bottom: 2.25rem; }
-  .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-
-  /* ── FOOTER ── */
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 2rem 5%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1rem;
-    background: #070910;
-  }
-  .footer-logo img { height: 26px; filter: brightness(0.6); }
-  .footer-copy { color: var(--muted2); font-size: 0.78rem; }
-  .footer-links { display: flex; gap: 1.5rem; }
-  .footer-links a {
-    color: var(--muted2);
-    font-size: 0.78rem;
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
-  .footer-links a:hover { color: var(--muted); }
-
-  /* ── SCROLL REVEAL ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity var(--transition-slow), transform var(--transition-slow);
-  }
-  .reveal.revealed { opacity: 1; transform: translateY(0); }
-  .reveal-delay-1 { transition-delay: 0.08s; }
-  .reveal-delay-2 { transition-delay: 0.16s; }
-  .reveal-delay-3 { transition-delay: 0.24s; }
-  .reveal-delay-4 { transition-delay: 0.32s; }
-
-  /* Respect reduced motion preference */
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-    .reveal { opacity: 1; transform: none; }
-  }
-
-  /* ── MOBILE MENU ── */
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(10,12,16,0.98);
-    backdrop-filter: blur(20px);
-    z-index: 999;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2rem;
-  }
-  .mobile-menu.open { display: flex; }
-  .mobile-menu a {
-    color: var(--text);
-    text-decoration: none;
-    font-size: 1.4rem;
-    font-weight: 700;
-    transition: color var(--transition-fast);
-  }
-  .mobile-menu a:hover { color: var(--blue-bright); }
-  .mobile-close {
-    position: absolute;
-    top: 1.2rem; right: 5%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    width: 40px; height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
-    cursor: pointer;
-    color: var(--text);
-  }
-
-  /* ── RESPONSIVE: TABLET ── */
-  @media (max-width: 900px) {
-    .hero-inner { grid-template-columns: 1fr; gap: 2.5rem; }
-    .hero-right { order: -1; }
-    .hero-card { max-width: 320px; margin: 0 auto; }
-    .before-after-grid { grid-template-columns: 1fr 1fr; }
-    .how-grid { grid-template-columns: 1fr; }
-    .reviews-inner { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-    .demo-stage { height: 380px; max-width: 640px; }
-    .demo-stand { width: 155px; }
-    .demo-phone { width: 190px; }
-    .nfc-ring:nth-child(1) { width: 63px; height: 63px; }
-    .nfc-ring:nth-child(2) { width: 102px; height: 102px; }
-    .nfc-ring:nth-child(3) { width: 145px; height: 145px; }
-  }
-
-  /* ── RESPONSIVE: MOBILE ── */
-  @media (max-width: 600px) {
-    section { padding: 56px 18px; }
-    #hero { padding: 80px 18px 48px; }
-    #demo { padding: 56px 18px 48px; }
-
-    .hero-logo { height: 148px; }
-    .hero-headline { font-size: clamp(1.75rem, 7vw, 2.2rem); }
-    .hero-sub { font-size: 0.95rem; }
-    .hero-buttons { flex-direction: column; gap: 0.75rem; }
-    .btn-primary,
-    .btn-secondary { width: 100%; justify-content: center; padding: 15px 20px; font-size: 1rem; }
-
-    .trust-bar { gap: 1.2rem; padding: 0.9rem 18px; }
-    .trust-sep { display: none; }
-
-    .before-after-grid { grid-template-columns: 1fr; gap: 1rem; }
-
-    .demo-stage { height: 340px; max-width: 100%; }
-    .demo-stand { width: 130px; }
-    .demo-phone { width: 170px; }
-    .nfc-ring:nth-child(1) { width: 55px; height: 55px; }
-    .nfc-ring:nth-child(2) { width: 90px; height: 90px; }
-    .nfc-ring:nth-child(3) { width: 128px; height: 128px; }
-
-    .demo-steps { flex-direction: row; gap: 0; max-width: 100%; }
-    .demo-steps::before { left: 10%; right: 10%; }
-    .step-label { font-size: 0.64rem; }
-    .step-num { width: 30px; height: 30px; font-size: 0.75rem; }
-
-    .features-grid { grid-template-columns: 1fr; }
-    .how-grid { grid-template-columns: 1fr; }
-
-    .cta-buttons { flex-direction: column; align-items: stretch; }
-    .cta-buttons .btn-primary,
-    .cta-buttons .btn-secondary { width: 100%; }
-
-    footer { flex-direction: column; text-align: center; }
-    .footer-links { justify-content: center; }
-
-    .pos-box { padding: 1.75rem 1.25rem; }
-    .pos-features { gap: 0.5rem; }
-  }
+/* ── FLOW STEP SVG ICONS ── */
+.flow-icon { width: 28px; height: 28px; color: var(--wa-green); }
 </style>
 </head>
+
 <body>
-
-<a href="#hero" class="skip-link">Saltar al contenido principal</a>
-
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-label="Menú de navegación">
-  <button class="mobile-close" id="mobileClose" aria-label="Cerrar menú">✕</button>
-  <a href="#funcionalidades" data-es="Funcionalidades" data-en="Features">Funcionalidades</a>
-  <a href="#como-funciona" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a>
-  <a href="#preguntas" data-es="Preguntas" data-en="FAQ">Preguntas</a>
-  <a href="https://wa.me/50767317853" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:1rem;">
-    WhatsApp
-  </a>
-</div>
+<a href="#main-content" class="skip-link">Saltar al contenido</a>
 
 <!-- NAVBAR -->
 <nav id="navbar" role="navigation" aria-label="Navegación principal">
-  <a href="#" class="nav-logo" aria-label="TapiScan — Inicio">
-    <img src="tapiscan-logo.png" alt="TapiScan" width="auto" height="50">
+  <a href="/" class="nav-logo" aria-label="TapiScan inicio">
+    <img src="tapiscan-logo.png" alt="TapiScan" height="40">
   </a>
-  <ul class="nav-links">
-    <li><a href="#funcionalidades" data-es="Funcionalidades" data-en="Features">Funcionalidades</a></li>
+  <ul class="nav-links" role="list">
     <li><a href="#como-funciona" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a></li>
-    <li><a href="#preguntas" data-es="Preguntas" data-en="FAQ">Preguntas</a></li>
+    <li><a href="#que-incluye" data-es="Qué incluye" data-en="What's included">Qué incluye</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-toggle" role="group" aria-label="Idioma">
-      <button id="btnLangEs" class="active" aria-pressed="true" aria-label="Español">ES</button>
-      <button id="btnLangEn" aria-pressed="false" aria-label="English">EN</button>
+      <button id="btn-es" class="active" aria-pressed="true" onclick="setLang('es')">ES</button>
+      <button id="btn-en" aria-pressed="false" onclick="setLang('en')">EN</button>
     </div>
-    <a href="https://wa.me/50767317853" target="_blank" rel="noopener noreferrer" class="btn-nav-wa" aria-label="Contactar por WhatsApp">
-      <!-- WhatsApp SVG icon -->
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    <a href="https://wa.me/50760934767?text=Hola%2C%20quiero%20ver%20el%20demo%20de%20TapiScan%20con%20mi%20men%C3%BA"
+       class="btn-nav-wa"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Pedir demo por WhatsApp">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
       </svg>
-      <span data-es="WhatsApp" data-en="WhatsApp">WhatsApp</span>
+      <span data-es="Pedir demo" data-en="Get demo">Pedir demo</span>
     </a>
-    <button class="hamburger" id="hamburgerBtn" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobileMenu">
-      <span></span><span></span><span></span>
-    </button>
   </div>
+  <button class="nav-mobile-toggle" aria-label="Abrir menú" aria-expanded="false" id="mobile-menu-btn">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- HERO -->
-<section id="hero" aria-label="Inicio">
-  <div class="hero-bg-glow" aria-hidden="true"></div>
-  <div class="hero-grid-lines" aria-hidden="true"></div>
-  <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-badge">
-        <span class="hero-badge-dot" aria-hidden="true"></span>
-        <span data-es="Nuevo en Panamá · NFC + QR" data-en="Now in Panama · NFC + QR">Nuevo en Panamá · NFC + QR</span>
-      </div>
-      <img src="tapiscan-logo.png" alt="TapiScan" class="hero-logo reveal" width="auto" height="190">
-      <h1 class="hero-headline reveal reveal-delay-1">
-        <span data-es="Convierte cada mesa en" data-en="Turn every table into">Convierte cada mesa en</span><br>
-        <span class="accent" data-es="acceso instantáneo" data-en="instant access">acceso instantáneo</span><br>
-        <span data-es="a tu menú" data-en="to your menu">a tu menú</span>
-      </h1>
-      <p class="hero-sub reveal reveal-delay-2" data-es="Menús NFC y QR para restaurantes que quieren verse modernos y vender más." data-en="NFC and QR menus for restaurants that want to look modern and sell more.">
-        Menús NFC y QR para restaurantes que quieren verse modernos y vender más.
-      </p>
-      <div class="hero-buttons reveal reveal-delay-3">
-        <a href="https://wa.me/50767317853" target="_blank" rel="noopener noreferrer" class="btn-primary">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0" aria-hidden="true" focusable="false">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          <span data-es="Solicitar demo por WhatsApp" data-en="Request demo on WhatsApp">Solicitar demo por WhatsApp</span>
-        </a>
-        <a href="#demo" class="btn-secondary">
-          <span data-es="Ver cómo funciona" data-en="See how it works">Ver cómo funciona</span>
-        </a>
-      </div>
-    </div>
-
-    <div class="hero-right reveal reveal-delay-2">
-      <div class="hero-card">
-        <img src="nfc-stand-generic.png" alt="Soporte NFC personalizable para restaurante" class="hero-stand-img" width="300" height="auto">
-        
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRUST BAR -->
-<div class="trust-bar" aria-label="Características clave">
-  <div class="trust-item" data-es="Sin descargar apps" data-en="No app downloads">Sin descargar apps</div>
-  <div class="trust-sep" aria-hidden="true"></div>
-  <div class="trust-item" data-es="Actualización en tiempo real" data-en="Real-time updates">Actualización en tiempo real</div>
-  <div class="trust-sep" aria-hidden="true"></div>
-  <div class="trust-item" data-es="iPhone y Android" data-en="iPhone and Android">iPhone y Android</div>
-  <div class="trust-sep" aria-hidden="true"></div>
-  <div class="trust-item" data-es="Hecho para Panamá" data-en="Made for Panama">Hecho para Panamá</div>
+<!-- Mobile drawer -->
+<div class="mobile-nav-drawer" id="mobile-drawer" aria-hidden="true">
+  <a href="#como-funciona" data-es="Cómo funciona" data-en="How it works">Cómo funciona</a>
+  <a href="#que-incluye" data-es="Qué incluye" data-en="What's included">Qué incluye</a>
+  <a href="https://wa.me/50760934767?text=Hola%2C%20quiero%20ver%20el%20demo%20de%20TapiScan%20con%20mi%20men%C3%BA"
+     target="_blank" rel="noopener noreferrer"
+     data-es="Pedir demo por WhatsApp" data-en="Request demo on WhatsApp">Pedir demo por WhatsApp</a>
 </div>
 
-<!-- ANTES / DESPUÉS -->
-<section id="problema" aria-labelledby="problema-title">
-  <div class="section-inner">
-    <div class="problema-header reveal">
-      <div class="section-label" data-es="El problema" data-en="The Problem">El problema</div>
-      <h2 class="section-title" id="problema-title" data-es="Olvídate del menú impreso" data-en="Forget the printed menu">Olvídate del menú impreso</h2>
-      <p class="section-sub" data-es="Compara la experiencia antes y con TapiScan." data-en="Compare the experience before and with TapiScan.">Compara la experiencia antes y con TapiScan.</p>
-    </div>
-    <div class="before-after-grid">
-      <div class="ba-card before reveal reveal-delay-1">
-        <div class="ba-label red" data-es="Antes" data-en="Before">Antes</div>
-        <div class="ba-row">
-          <span class="ba-dot red" aria-hidden="true"></span>
-          <span data-es="Impresiones costosas" data-en="Expensive printing">Impresiones costosas</span>
-        </div>
-        <div class="ba-row">
-          <span class="ba-dot red" aria-hidden="true"></span>
-          <span data-es="Se quedan obsoletos rápido" data-en="Become outdated fast">Se quedan obsoletos rápido</span>
-        </div>
-        <div class="ba-row">
-          <span class="ba-dot red" aria-hidden="true"></span>
-          <span data-es="Sucios o dañados" data-en="Dirty or damaged">Sucios o dañados</span>
-        </div>
-        <div class="ba-row">
-          <span class="ba-dot red" aria-hidden="true"></span>
-          <span data-es="Difícil cambiar precios" data-en="Hard to change prices">Difícil cambiar precios</span>
-        </div>
-        <div class="ba-row">
-          <span class="ba-dot red" aria-hidden="true"></span>
-          <span data-es="Mala imagen del negocio" data-en="Poor business image">Mala imagen del negocio</span>
-        </div>
+<main id="main-content">
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-eyebrow" data-es="Tu restaurante, siempre disponible" data-en="Your restaurant, always available">Tu restaurante, siempre disponible</div>
+      <h1>
+        <span data-es="TapiScan atiende el WhatsApp de tu restaurante," data-en="TapiScan manages your restaurant's WhatsApp,">TapiScan atiende el WhatsApp de tu restaurante,</span>
+        <span class="accent" data-es=" 24/7." data-en=" 24/7."> 24/7.</span>
+      </h1>
+      <p class="hero-sub" data-es="Responde preguntas frecuentes, muestra tu menú bilingüe y confirma reservas en español e inglés — para que no pierdas clientes cuando estás ocupado." data-en="Answers common questions, shows your bilingual menu, and confirms reservations in Spanish and English — so you never miss a customer when you're busy.">
+        Responde preguntas frecuentes, muestra tu menú bilingüe y confirma reservas en español e inglés — para que no pierdas clientes cuando estás ocupado.
+      </p>
+      <p class="hero-en-tagline" id="en-tagline" data-es="TapiScan answers your WhatsApp, serves your bilingual menu, and books reservations 24/7." data-en="">
+        TapiScan answers your WhatsApp, serves your bilingual menu, and books reservations 24/7.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://wa.me/50760934767?text=Hola%2C%20quiero%20ver%20el%20demo%20de%20TapiScan%20con%20mi%20men%C3%BA"
+           class="btn-primary"
+           target="_blank" rel="noopener noreferrer">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+          </svg>
+          <span data-es="Pedir demo con mi menú" data-en="Request demo with my menu">Pedir demo con mi menú</span>
+        </a>
+        <a href="#como-funciona" class="btn-secondary">
+          <span data-es="Cómo funciona" data-en="How it works">Cómo funciona</span>
+          <span aria-hidden="true">↓</span>
+        </a>
       </div>
-      <div class="ba-card after reveal reveal-delay-2">
-        <div class="ba-label blue" data-es="Con TapiScan" data-en="With TapiScan">Con TapiScan</div>
-        <div class="ba-row positive">
-          <span class="ba-dot green" aria-hidden="true"></span>
-          <span data-es="Cero costo de impresión" data-en="Zero printing cost">Cero costo de impresión</span>
-        </div>
-        <div class="ba-row positive">
-          <span class="ba-dot green" aria-hidden="true"></span>
-          <span data-es="Actualiza en segundos" data-en="Update in seconds">Actualiza en segundos</span>
-        </div>
-        <div class="ba-row positive">
-          <span class="ba-dot green" aria-hidden="true"></span>
-          <span data-es="Sin contacto físico" data-en="No physical contact">Sin contacto físico</span>
-        </div>
-        <div class="ba-row positive">
-          <span class="ba-dot green" aria-hidden="true"></span>
-          <span data-es="Cambios desde tu celular" data-en="Changes from your phone">Cambios desde tu celular</span>
-        </div>
-        <div class="ba-row positive">
-          <span class="ba-dot green" aria-hidden="true"></span>
-          <span data-es="Imagen moderna y profesional" data-en="Modern, professional image">Imagen moderna y profesional</span>
+      <p class="hero-number">WhatsApp: <a href="https://wa.me/50760934767" target="_blank" rel="noopener noreferrer">+507 6093-4767</a></p>
+    </div>
+    <div class="hero-phone" aria-hidden="true">
+      <div class="phone-frame">
+        <div class="phone-screen">
+          <div class="wa-header">
+            <div class="wa-avatar">TS</div>
+            <div>
+              <div class="wa-name">TapiScan</div>
+              <div class="wa-status" data-es="en línea" data-en="online">en línea</div>
+            </div>
+          </div>
+          <div class="wa-messages" id="hero-chat"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DEMO / ANIMATION SECTION -->
-<section id="demo" aria-labelledby="demo-title">
-  <div class="section-inner">
-    <div class="demo-header reveal">
-      <div class="section-label" data-es="Demo interactivo" data-en="Interactive Demo">Demo interactivo</div>
-      <h2 class="section-title" id="demo-title" data-es="Así de simple funciona" data-en="This is how simple it is">Así de simple funciona</h2>
-      <p class="section-sub" style="margin:0 auto;" data-es="Avanza los pasos para ver la magia del NFC" data-en="Advance the steps to see the NFC magic">Avanza los pasos para ver la magia del NFC</p>
-    </div>
-
-    <div class="demo-stage" id="demoStage" aria-hidden="true">
-      <div class="demo-stand">
-        <img src="Stand.png" alt="" id="standImg" width="200" height="auto">
-      </div>
-      <div class="nfc-pulse-container" id="nfcPulse">
-        <div class="nfc-ring"></div>
-        <div class="nfc-ring"></div>
-        <div class="nfc-ring"></div>
-      </div>
-      <div class="demo-phone" id="demoPhone">
-        <img src="hand-1.png" alt="" id="phoneImg" width="240" height="auto">
-      </div>
-      <div class="phone-screen-menu" id="phoneMenu">
-        <div class="psm-header">
-          <div class="psm-dot"></div>
-          <div class="psm-title">Mi Restaurante</div>
+<!-- PAIN SECTION -->
+<section class="section pain-section" id="dolor">
+  <div class="container">
+    <div class="section-label" data-es="El problema" data-en="The problem">El problema</div>
+    <h2 class="t-h1" data-es="Tu WhatsApp no espera a que termine el rush." data-en="Your WhatsApp doesn't wait for the rush to end.">
+      Tu WhatsApp no espera a que termine el rush.
+    </h2>
+    <p class="section-sub" data-es="Mientras cocinas, atiendes mesas o simplemente estás fuera, los clientes escriben — y si no hay respuesta, buscan otro restaurante." data-en="While you're cooking, serving tables, or simply away, guests are writing — and if there's no answer, they find another restaurant.">
+      Mientras cocinas, atiendes mesas o simplemente estás fuera, los clientes escriben — y si no hay respuesta, buscan otro restaurante.
+    </p>
+    <div class="pain-grid">
+      <div class="pain-card fade-in">
+        <div class="pain-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
         </div>
-        <div class="psm-body">
-          <div class="psm-item">
-            <div>
-              <div class="psm-emoji">🥩</div>
-              <div class="psm-item-name" data-es="Lomo al trapo" data-en="Lomo al trapo">Lomo al trapo</div>
-            </div>
-            <div class="psm-item-price">$18.50</div>
-          </div>
-          <div class="psm-item">
-            <div>
-              <div class="psm-emoji">🦐</div>
-              <div class="psm-item-name" data-es="Camarones al ajillo" data-en="Garlic shrimp">Camarones al ajillo</div>
-            </div>
-            <div class="psm-item-price">$16.00</div>
-          </div>
-          <div class="psm-item">
-            <div>
-              <div class="psm-emoji">🍺</div>
-              <div class="psm-item-name" data-es="Cerveza artesanal" data-en="Craft beer">Cerveza artesanal</div>
-            </div>
-            <div class="psm-item-price">$5.00</div>
-          </div>
-          <div class="psm-item">
-            <div>
-              <div class="psm-emoji">🍰</div>
-              <div class="psm-item-name" data-es="Tres leches" data-en="Tres leches cake">Tres leches</div>
-            </div>
-            <div class="psm-item-price">$7.50</div>
-          </div>
+        <h3 data-es="Reservas perdidas a medianoche" data-en="Reservations lost at midnight">Reservas perdidas a medianoche</h3>
+        <p data-es="Los clientes preguntan a las 11 p.m. Nadie responde. Mañana reservan en otro lado." data-en="Guests ask at 11 p.m. No answer. Tomorrow they book somewhere else.">
+          Los clientes preguntan a las 11 p.m. Nadie responde. Mañana reservan en otro lado.
+        </p>
+      </div>
+      <div class="pain-card fade-in">
+        <div class="pain-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/><path d="M12 8v4m0 4h.01"/>
+          </svg>
         </div>
+        <h3 data-es="Las mismas preguntas, una y otra vez" data-en="The same questions, over and over">Las mismas preguntas, una y otra vez</h3>
+        <p data-es="Horarios, parqueo, menú, opciones vegetarianas. TapiScan las responde sin que intervengas." data-en="Hours, parking, menu, vegetarian options. TapiScan handles them without you.">
+          Horarios, parqueo, menú, opciones vegetarianas. TapiScan las responde sin que intervengas.
+        </p>
       </div>
-    </div>
-
-    <div class="demo-steps" role="list">
-      <div class="demo-step active" role="listitem" data-step="0" tabindex="0" aria-label="Paso 1: Soporte en mesa">
-        <div class="step-num" aria-hidden="true">1</div>
-        <div class="step-label" data-es="Soporte en mesa" data-en="Stand on table">Soporte en mesa</div>
-      </div>
-      <div class="demo-step" role="listitem" data-step="1" tabindex="0" aria-label="Paso 2: Cliente acerca celular">
-        <div class="step-num" aria-hidden="true">2</div>
-        <div class="step-label" data-es="Cliente acerca celular" data-en="Customer taps phone">Cliente acerca celular</div>
-      </div>
-      <div class="demo-step" role="listitem" data-step="2" tabindex="0" aria-label="Paso 3: NFC detectado">
-        <div class="step-num" aria-hidden="true">3</div>
-        <div class="step-label" data-es="NFC detectado" data-en="NFC detected">NFC detectado</div>
-      </div>
-      <div class="demo-step" role="listitem" data-step="3" tabindex="0" aria-label="Paso 4: Menú al instante">
-        <div class="step-num" aria-hidden="true">4</div>
-        <div class="step-label" data-es="Menú al instante" data-en="Menu instantly">Menú al instante</div>
+      <div class="pain-card fade-in">
+        <div class="pain-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h3 data-es="El rush es el peor momento para contestar" data-en="Rush hour is the worst time to answer">El rush es el peor momento para contestar</h3>
+        <p data-es="Cuando más ocupado estás, más mensajes llegan. Ahora tienes una recepcionista que nunca para." data-en="Your busiest moments are when messages flood in. Now you have a receptionist who never stops.">
+          Cuando más ocupado estás, más mensajes llegan. Ahora tienes una recepcionista que nunca para.
+        </p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section id="como-funciona" aria-labelledby="como-funciona-title">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label" data-es="Proceso" data-en="Process">Proceso</div>
-      <h2 class="section-title" id="como-funciona-title" data-es="Cómo funciona TapiScan" data-en="How TapiScan works">Cómo funciona TapiScan</h2>
-    </div>
-    <div class="how-grid">
-      <div class="how-card reveal reveal-delay-1" data-num="01">
-        <div class="how-num" aria-hidden="true">01</div>
-        <h3 data-es="Colocamos el soporte" data-en="We place the stand">Colocamos el soporte</h3>
-        <p data-es="Tu soporte NFC/QR personalizado, listo en cada mesa. Elegante y profesional." data-en="Your custom NFC/QR stand, ready at each table. Elegant and professional.">Tu soporte NFC/QR personalizado, listo en cada mesa. Elegante y profesional.</p>
+<section class="section flow-section" id="como-funciona">
+  <div class="container">
+    <div class="section-label" data-es="Cómo funciona" data-en="How it works">Cómo funciona</div>
+    <h2 class="t-h1" data-es="Un bucle completo desde el primer mensaje hasta la confirmación." data-en="A complete loop from the first message to confirmation.">
+      Un bucle completo desde el primer mensaje hasta la confirmación.
+    </h2>
+    <div class="flow-steps">
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">
+          <svg class="flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </div>
+        <div>
+          <h4 data-es="Cliente escribe por WhatsApp" data-en="Guest messages on WhatsApp">Cliente escribe por WhatsApp</h4>
+          <p data-es="En español, inglés, o mezclado. No importa el horario." data-en="In Spanish, English, or mixed. Anytime.">En español, inglés, o mezclado. No importa el horario.</p>
+        </div>
       </div>
-      <div class="how-card reveal reveal-delay-2" data-num="02">
-        <div class="how-num" aria-hidden="true">02</div>
-        <h3 data-es="El cliente acerca su teléfono" data-en="Customer brings phone close">El cliente acerca su teléfono</h3>
-        <p data-es="Sin apps. Solo acerca el celular o escanea el QR. Funciona en 2 segundos." data-en="No app. Just bring the phone close or scan the QR. Works in 2 seconds.">Sin apps. Solo acerca el celular o escanea el QR. Funciona en 2 segundos.</p>
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">
+          <svg class="flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div>
+          <h4 data-es="TapiScan responde de inmediato" data-en="TapiScan replies instantly">TapiScan responde de inmediato</h4>
+          <p data-es="Horarios, menú, parqueo, preguntas frecuentes — sin esperar." data-en="Hours, menu, parking, FAQs — no waiting.">Horarios, menú, parqueo, preguntas frecuentes — sin esperar.</p>
+        </div>
       </div>
-      <div class="how-card reveal reveal-delay-3" data-num="03">
-        <div class="how-num" aria-hidden="true">03</div>
-        <h3 data-es="El menú aparece al instante" data-en="Menu appears instantly">El menú aparece al instante</h3>
-        <p data-es="Tu menú digital se abre en el navegador. Actualizado, atractivo y sin fricción." data-en="Your digital menu opens in the browser. Updated, attractive, no friction.">Tu menú digital se abre en el navegador. Actualizado, atractivo y sin fricción.</p>
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">
+          <svg class="flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6h16M4 10h16M4 14h8M4 18h8"/>
+          </svg>
+        </div>
+        <div>
+          <h4 data-es="Muestra el menú bilingüe" data-en="Shows the bilingual menu">Muestra el menú bilingüe</h4>
+          <p data-es="En español e inglés, actualizado en tiempo real." data-en="In Spanish and English, updated in real time.">En español e inglés, actualizado en tiempo real.</p>
+        </div>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">
+          <svg class="flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/>
+          </svg>
+        </div>
+        <div>
+          <h4 data-es="Confirma la reserva" data-en="Confirms the reservation">Confirma la reserva</h4>
+          <p data-es="Dentro de las reglas del restaurante. Sin inventar ni prometer de más." data-en="Within your rules. No guessing, no overpromising.">Dentro de las reglas del restaurante. Sin inventar ni prometer de más.</p>
+        </div>
+      </div>
+      <div class="flow-step fade-in">
+        <div class="flow-step-num">
+          <svg class="flow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h7v7"/>
+          </svg>
+        </div>
+        <div>
+          <h4 data-es="El dueño ve todo en su panel" data-en="Owner sees everything in the dashboard">El dueño ve todo en su panel</h4>
+          <p data-es="Nueva reserva confirmada, historial completo, sin revisar el teléfono." data-en="New reservation confirmed, full history, without checking the phone.">Nueva reserva confirmada, historial completo, sin revisar el teléfono.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FEATURES -->
-<section id="funcionalidades" aria-labelledby="funcionalidades-title">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label" data-es="Funcionalidades" data-en="Features">Funcionalidades</div>
-      <h2 class="section-title" id="funcionalidades-title" data-es="Todo lo que necesita tu restaurante" data-en="Everything your restaurant needs">Todo lo que necesita tu restaurante</h2>
-      <p class="section-sub" data-es="Diseñado para restaurantes que quieren una experiencia limpia y profesional." data-en="Designed for restaurants that want a clean, professional experience.">Diseñado para restaurantes que quieren una experiencia limpia y profesional.</p>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-dot" aria-hidden="true"></div>
-        <h3 data-es="Funciona sin apps" data-en="Works without apps">Funciona sin apps</h3>
-        <p data-es="Se abre directo en el navegador. Sin descargas, sin fricciones para el cliente." data-en="Opens directly in the browser. No downloads, no friction for the customer.">Se abre directo en el navegador. Sin descargas, sin fricciones para el cliente.</p>
+<!-- FULL RESERVATION MOCKUP -->
+<section class="section mockup-section" id="reserva-demo">
+  <div class="container">
+    <div class="section-label" data-es="En acción" data-en="In action">En acción</div>
+    <h2 class="t-h1" data-es="De mensaje a reserva confirmada — en minutos." data-en="From message to confirmed reservation — in minutes.">
+      De mensaje a reserva confirmada — en minutos.
+    </h2>
+    <p class="section-sub" data-es="TapiScan también atiende en inglés — sin que cambies nada." data-en="TapiScan handles English natively — no setup needed.">
+      TapiScan también atiende en inglés — sin que cambies nada.
+    </p>
+    <div class="mockup-grid">
+      <div class="mockup-phone-wrap">
+        <div class="phone-frame phone-frame--tall">
+          <div class="phone-screen">
+            <div class="wa-header">
+              <div class="wa-avatar">TS</div>
+              <div>
+                <div class="wa-name">TapiScan</div>
+                <div class="wa-status" data-es="en línea" data-en="online">en línea</div>
+              </div>
+            </div>
+            <div class="wa-messages" id="demo-chat"></div>
+          </div>
+        </div>
       </div>
-      <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-dot" aria-hidden="true"></div>
-        <h3 data-es="iPhone y Android" data-en="iPhone and Android">iPhone y Android</h3>
-        <p data-es="Compatible con todos los celulares modernos, NFC y QR." data-en="Compatible with all modern phones, NFC and QR.">Compatible con todos los celulares modernos, NFC y QR.</p>
-      </div>
-      <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-dot" aria-hidden="true"></div>
-        <h3 data-es="Actualización en tiempo real" data-en="Real-time updates">Actualización en tiempo real</h3>
-        <p data-es="Cambia precios o platos desde tu panel en segundos. Sin esperar." data-en="Change prices or dishes from your panel in seconds. No waiting.">Cambia precios o platos desde tu panel en segundos. Sin esperar.</p>
-      </div>
-      <div class="feature-card reveal reveal-delay-1">
-        <div class="feature-dot" aria-hidden="true"></div>
-        <h3 data-es="Servicio más rápido" data-en="Faster service">Servicio más rápido</h3>
-        <p data-es="Los clientes ven el menú mientras esperan. Menos espera percibida." data-en="Customers see the menu while waiting. Less perceived wait time.">Los clientes ven el menú mientras esperan. Menos espera percibida.</p>
-      </div>
-      <div class="feature-card reveal reveal-delay-2">
-        <div class="feature-dot" aria-hidden="true"></div>
-        <h3 data-es="Aumenta el ticket promedio" data-en="Increases average ticket">Aumenta el ticket promedio</h3>
-        <p data-es="Fotos y precios claros generan más pedidos por mesa." data-en="Clear photos and prices generate more orders per table.">Fotos y precios claros generan más pedidos por mesa.</p>
-      </div>
-      <div class="feature-card reveal reveal-delay-3">
-        <div class="feature-dot" aria-hidden="true"></div>
-        <h3 data-es="Diseño 100% personalizado" data-en="100% custom design">Diseño 100% personalizado</h3>
-        <p data-es="Tu marca, tus colores, tu estilo. Totalmente tuyo." data-en="Your brand, your colors, your style. Completely yours.">Tu marca, tus colores, tu estilo. Totalmente tuyo.</p>
+      <div class="mockup-panel">
+        <div class="panel-header">
+          <span class="panel-dot panel-dot--green"></span>
+          <span data-es="Panel de reservas" data-en="Reservations dashboard">Panel de reservas</span>
+        </div>
+        <div class="panel-placeholder" aria-hidden="true">
+          <div class="panel-ph-line" style="width:60%"></div>
+          <div class="panel-ph-line" style="width:80%"></div>
+          <div class="panel-ph-line" style="width:40%"></div>
+        </div>
+        <div class="panel-notif" id="panel-notif">
+          <div class="panel-notif-badge" data-es="Nueva reserva" data-en="New reservation">Nueva reserva</div>
+          <div class="panel-notif-name">Sarah</div>
+          <div class="panel-notif-detail" data-es="4 personas · mañana 8:00 p.m." data-en="4 guests · tomorrow 8:00 p.m.">4 personas · mañana 8:00 p.m.</div>
+          <div class="panel-notif-code">RSV-1042</div>
+          <div class="panel-notif-status" data-es="Confirmada automaticamente" data-en="Auto-confirmed">Confirmada automaticamente</div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- REVIEWS / TRUST -->
-<section id="reviews" aria-labelledby="reviews-title">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label" data-es="Confianza" data-en="Trust">Confianza</div>
-      <h2 class="section-title" id="reviews-title" data-es="Compatible con las plataformas que ya usas" data-en="Compatible with platforms you already use">Compatible con las plataformas que ya usas</h2>
+<!-- WHAT'S INCLUDED -->
+<section class="section includes-section" id="que-incluye">
+  <div class="container">
+    <div class="section-label" data-es="Qué incluye" data-en="What's included">Qué incluye</div>
+    <h2 class="t-h1" data-es="Qué incluye TapiScan" data-en="What TapiScan includes">Qué incluye TapiScan</h2>
+    <p class="section-sub" data-es="Todo lo que necesita tu restaurante para no perder un cliente por WhatsApp." data-en="Everything your restaurant needs to never miss a customer on WhatsApp.">
+      Todo lo que necesita tu restaurante para no perder un cliente por WhatsApp.
+    </p>
+    <div class="includes-grid">
+      <div class="include-card fade-in">
+        <div class="include-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </div>
+        <h3 data-es="Asistente de WhatsApp" data-en="WhatsApp assistant">Asistente de WhatsApp</h3>
+        <p data-es="Responde mensajes 24/7 con información real de tu restaurante." data-en="Responds to messages 24/7 with your restaurant's real information.">Responde mensajes 24/7 con información real de tu restaurante.</p>
+      </div>
+      <div class="include-card fade-in">
+        <div class="include-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 6h16M4 10h16M4 14h8M4 18h8"/>
+          </svg>
+        </div>
+        <h3 data-es="Menú digital bilingüe" data-en="Bilingual digital menu">Menú digital bilingüe</h3>
+        <p data-es="Tu menú en español e inglés, siempre actualizado, sin apps." data-en="Your menu in Spanish and English, always up to date, no apps needed.">Tu menú en español e inglés, siempre actualizado, sin apps.</p>
+      </div>
+      <div class="include-card fade-in">
+        <div class="include-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/>
+          </svg>
+        </div>
+        <h3 data-es="Traducción profesional" data-en="Professional translation">Traducción profesional</h3>
+        <p data-es="Las respuestas suenan naturales en ambos idiomas, no como una traducción automática." data-en="Responses sound natural in both languages, not like machine translation.">Las respuestas suenan naturales en ambos idiomas, no como una traducción automática.</p>
+      </div>
+      <div class="include-card fade-in">
+        <div class="include-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/>
+          </svg>
+        </div>
+        <h3 data-es="Reservas confirmadas" data-en="Confirmed reservations">Reservas confirmadas</h3>
+        <p data-es="Confirma reservas dentro de tus reglas y disponibilidad. El cliente sabe de inmediato." data-en="Confirms bookings within your rules and availability. The guest knows right away.">Confirma reservas dentro de tus reglas y disponibilidad. El cliente sabe de inmediato.</p>
+      </div>
+      <div class="include-card fade-in">
+        <div class="include-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+          </svg>
+        </div>
+        <h3 data-es="Pase al humano" data-en="Human handoff">Pase al humano</h3>
+        <p data-es="Lo que TapiScan no puede resolver, lo escala contigo claramente." data-en="What TapiScan can't resolve, it escalates to you clearly.">Lo que TapiScan no puede resolver, lo escala contigo claramente.</p>
+      </div>
+      <div class="include-card fade-in">
+        <div class="include-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h7v7"/>
+          </svg>
+        </div>
+        <h3 data-es="QR/NFC para mesas" data-en="QR/NFC for tables">QR/NFC para mesas</h3>
+        <p data-es="Incluye menú QR y soporte para tapas NFC en mesa." data-en="Includes QR menu and NFC table tags.">Incluye menú QR y soporte para tapas NFC en mesa.</p>
+      </div>
+      <div class="include-card fade-in">
+        <div class="include-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.12 1.18 2 2 0 012.11 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.09a16 16 0 006 6l.45-.45a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 14.92v2z"/>
+          </svg>
+        </div>
+        <h3 data-es="Soporte el mismo día hábil" data-en="Same-business-day support">Soporte el mismo día hábil</h3>
+        <p data-es="Si algo necesitas ajustar, lo resolvemos contigo directamente." data-en="If you need anything adjusted, we resolve it with you directly.">Si algo necesitas ajustar, lo resolvemos contigo directamente.</p>
+      </div>
     </div>
-    <div class="reviews-inner">
-      <div class="platform-list">
-        <div class="platform-item reveal reveal-delay-1">
-          <div class="platform-initial" style="background:#4285F4;" aria-hidden="true">G</div>
-          <div>
-            <div class="stars" aria-label="5 estrellas">★★★★★</div>
-            <h4>Google Reviews</h4>
-            <p data-es="Conecta con tu perfil de Google y capta más reseñas" data-en="Connect with your Google profile and capture more reviews">Conecta con tu perfil de Google y capta más reseñas</p>
-          </div>
+  </div>
+</section>
+
+<!-- TRUST SECTION -->
+<section class="section trust-section">
+  <div class="container">
+    <div class="section-label" data-es="Transparencia" data-en="Transparency">Transparencia</div>
+    <h2 class="t-h1" data-es="Qué puede esperar tu restaurante" data-en="What your restaurant can expect">Qué puede esperar tu restaurante</h2>
+    <div class="trust-grid">
+      <div class="trust-col fade-in">
+        <div class="trust-col-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-check" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <span data-es="Siempre" data-en="Always">Siempre</span>
         </div>
-        <div class="platform-item reveal reveal-delay-2">
-          <div class="platform-initial" style="background:#34C77B;" aria-hidden="true">T</div>
-          <div>
-            <div class="stars" aria-label="5 estrellas">★★★★★</div>
-            <h4>TripAdvisor</h4>
-            <p data-es="Visibilidad para turistas y visitantes locales" data-en="Visibility for tourists and local visitors">Visibilidad para turistas y visitantes locales</p>
-          </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-check" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-es="Responde con la información del restaurante" data-en="Responds with your restaurant's information">Responde con la información del restaurante</span>
         </div>
-        <div class="platform-item reveal reveal-delay-3">
-          <div class="platform-initial" style="background:#E74C3C;" aria-hidden="true">D</div>
-          <div>
-            <div class="stars" aria-label="5 estrellas">★★★★★</div>
-            <h4>Degusta</h4>
-            <p data-es="La plataforma gastronómica líder en Panamá" data-en="The leading gastronomic platform in Panama">La plataforma gastronómica líder en Panamá</p>
-          </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-check" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-es="Confirma solo dentro de las reglas configuradas" data-en="Confirms only within your configured rules">Confirma solo dentro de las reglas configuradas</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-check" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-es="Pasa al humano lo que no puede resolver" data-en="Escalates to you what it can't resolve">Pasa al humano lo que no puede resolver</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-check" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span data-es="Funciona en español e inglés" data-en="Works in Spanish and English">Funciona en español e inglés</span>
         </div>
       </div>
+      <div class="trust-col fade-in">
+        <div class="trust-col-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-x" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+          <span data-es="Nunca" data-en="Never">Nunca</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-x" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span data-es="No inventa respuestas" data-en="Does not invent answers">No inventa respuestas</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-x" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span data-es="No reemplaza tu POS" data-en="Does not replace your POS">No reemplaza tu POS</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-x" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span data-es="No procesa pagos ni delivery" data-en="Does not process payments or delivery">No procesa pagos ni delivery</span>
+        </div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="trust-x" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          <span data-es="No guarda datos de tarjetas ni información de pago" data-en="Does not store card data or payment information">No guarda datos de tarjetas ni información de pago</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="testimonial-card reveal reveal-delay-2">
-        <p class="testimonial-text" data-es="Estamos implementando TapiScan en nuestro restaurante para mejorar la experiencia del cliente y agilizar los pedidos. La facilidad para actualizar el menú y mostrar fotos claras de los platos hace que sea una herramienta muy prometedora." data-en="We are implementing TapiScan in our restaurant to improve the customer experience and speed up orders. The ease of updating the menu and showing clear photos of dishes makes it a very promising tool.">
-          Estamos implementando TapiScan en nuestro restaurante para mejorar la experiencia del cliente y agilizar los pedidos. La facilidad para actualizar el menú y mostrar fotos claras de los platos hace que sea una herramienta muy prometedora.
+<!-- QR / NFC SECTION -->
+<section class="section nfc-section">
+  <div class="container">
+    <div class="nfc-grid">
+      <div>
+        <div class="section-label" data-es="Complemento" data-en="Add-on">Complemento</div>
+        <h2 class="t-h1" data-es="También incluye menú QR/NFC para mesas." data-en="Includes QR/NFC table menus.">
+          También incluye menú QR/NFC para mesas.
+        </h2>
+        <p style="color:var(--text-sub);line-height:1.7;margin-top:1rem;" data-es="Cada mesa puede tener su propio acceso al menú digital. Sin apps, sin descarga." data-en="Each table gets its own digital menu access. No app, no download required.">
+          Cada mesa puede tener su propio acceso al menú digital. Sin apps, sin descarga.
         </p>
-        <div class="testimonial-author">
-          <div class="author-avatar" style="font-size:1.1rem;" aria-hidden="true">JA</div>
-          <div>
-            <div class="author-name">Julio A.</div>
-            <div class="author-role" data-es="Propietario · Xander's Sandwiches, Ciudad de Panamá" data-en="Owner · Xander's Sandwiches, Panama City">Propietario · Xander's Sandwiches, Ciudad de Panamá</div>
-          </div>
-        </div>
+        <ul class="nfc-list">
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-es="Menú en mesa sin contacto" data-en="Contactless table menu">Menú en mesa sin contacto</span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-es="Actualización en tiempo real desde el panel" data-en="Real-time updates from your dashboard">Actualización en tiempo real desde el panel</span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-es="Bilingüe — español e inglés" data-en="Bilingual — Spanish and English">Bilingüe — español e inglés</span>
+          </li>
+          <li>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <span data-es="Sin apps. Sin descarga. Solo escanear." data-en="No apps. No download. Just scan.">Sin apps. Sin descarga. Solo escanear.</span>
+          </li>
+        </ul>
+      </div>
+      <div class="nfc-image-wrap fade-in">
+        <img src="nfc-stand-generic.png" alt="Soporte NFC para mesa de restaurante" loading="lazy">
       </div>
     </div>
-  </div>
-</section>
-
-<!-- POS SECTION -->
-<section id="pos" aria-labelledby="pos-title">
-  <div class="section-inner">
-    <div class="reveal" style="text-align:center;">
-      <div class="section-label" style="justify-content:center;" data-es="Próximamente" data-en="Coming soon">Próximamente</div>
-      <h2 class="section-title" id="pos-title" data-es="Más que un menú digital" data-en="More than a digital menu">Más que un menú digital</h2>
-    </div>
-    <div class="pos-box reveal reveal-delay-1">
-      <div class="pos-badge" data-es="En desarrollo" data-en="In development">En desarrollo</div>
-      <h3 data-es="Sistema de gestión completo" data-en="Complete management system">Sistema de gestión completo</h3>
-      <p data-es="Integración con tu punto de venta, control de inventario, análisis de ventas y mucho más. Todo desde un solo lugar." data-en="Integration with your point of sale, inventory control, sales analytics and much more. All from one place.">Integración con tu punto de venta, control de inventario, análisis de ventas y mucho más. Todo desde un solo lugar.</p>
-      <div class="pos-features">
-        <div class="pos-chip" data-es="POS Integration" data-en="POS Integration">POS Integration</div>
-        <div class="pos-chip" data-es="Analytics" data-en="Analytics">Analytics</div>
-        <div class="pos-chip" data-es="Inventario" data-en="Inventory">Inventario</div>
-        <div class="pos-chip" data-es="IA de ventas" data-en="Sales AI">IA de ventas</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ -->
-<section id="preguntas" aria-labelledby="preguntas-title">
-  <div class="section-inner">
-    <div class="reveal">
-      <div class="section-label" data-es="Preguntas frecuentes" data-en="FAQ">Preguntas frecuentes</div>
-      <h2 class="section-title" id="preguntas-title" data-es="¿Tienes dudas?" data-en="Have questions?">¿Tienes dudas?</h2>
-    </div>
-    <div class="faq-list" id="faqList">
-      <div class="faq-item reveal">
-        <button class="faq-q" aria-expanded="false">
-          <span data-es="¿Necesito descargar una app?" data-en="Do I need to download an app?">¿Necesito descargar una app?</span>
-          <div class="faq-chevron" aria-hidden="true">▾</div>
-        </button>
-        <div class="faq-a" data-es="No. TapiScan funciona directamente en el navegador del celular. Solo acerca el teléfono al soporte o escanea el QR y listo." data-en="No. TapiScan works directly in the phone's browser. Just bring the phone close to the stand or scan the QR.">No. TapiScan funciona directamente en el navegador del celular. Solo acerca el teléfono al soporte o escanea el QR y listo.</div>
-      </div>
-      <div class="faq-item reveal reveal-delay-1">
-        <button class="faq-q" aria-expanded="false">
-          <span data-es="¿Funciona con iPhones viejos?" data-en="Does it work with older iPhones?">¿Funciona con iPhones viejos?</span>
-          <div class="faq-chevron" aria-hidden="true">▾</div>
-        </button>
-        <div class="faq-a" data-es="El NFC funciona con iPhone 7 o superior. Para modelos más viejos, el QR es la alternativa perfecta." data-en="NFC works with iPhone 7 or later. For older models, the QR is the perfect alternative.">El NFC funciona con iPhone 7 o superior. Para modelos más viejos, el QR es la alternativa perfecta.</div>
-      </div>
-      <div class="faq-item reveal reveal-delay-2">
-        <button class="faq-q" aria-expanded="false">
-          <span data-es="¿Puedo actualizar el menú yo mismo?" data-en="Can I update the menu myself?">¿Puedo actualizar el menú yo mismo?</span>
-          <div class="faq-chevron" aria-hidden="true">▾</div>
-        </button>
-        <div class="faq-a" data-es="Sí. Tienes acceso a un panel simple donde puedes cambiar precios, agregar platos o actualizar fotos en segundos, sin ayuda técnica." data-en="Yes. You have access to a simple panel where you can change prices, add dishes, or update photos in seconds, no technical help needed.">Sí. Tienes acceso a un panel simple donde puedes cambiar precios, agregar platos o actualizar fotos en segundos, sin ayuda técnica.</div>
-      </div>
-      <div class="faq-item reveal reveal-delay-2">
-        <button class="faq-q" aria-expanded="false">
-          <span data-es="¿El sistema tiene costo?" data-en="Is there a cost?">¿El sistema tiene costo?</span>
-          <div class="faq-chevron" aria-hidden="true">▾</div>
-        </button>
-        <div class="faq-a" data-es="La instalación incluye los soportes NFC físicos y la configuración inicial. Una vez instalado, puedes usar tu menú digital gratis. La versión gratuita puede incluir promociones discretas; puedes eliminarlas cuando quieras." data-en="Installation includes the physical NFC stands and initial setup. Once installed, you can use your digital menu for free. The free version may include subtle promotions — you can remove them anytime.">La instalación incluye los soportes NFC físicos y la configuración inicial. Una vez instalado, puedes usar tu menú digital gratis. La versión gratuita puede incluir promociones discretas; puedes eliminarlas cuando quieras.</div>
-      </div>
-      <div class="faq-item reveal reveal-delay-3">
-        <button class="faq-q" aria-expanded="false">
-          <span data-es="¿Cuánto tiempo toma la implementación?" data-en="How long does setup take?">¿Cuánto tiempo toma la implementación?</span>
-          <div class="faq-chevron" aria-hidden="true">▾</div>
-        </button>
-        <div class="faq-a" data-es="Rápida y sin complicaciones. Nosotros configuramos todo y colocamos los soportes. Tu restaurante estará listo de inmediato." data-en="Fast and hassle-free. We configure everything and place the stands. Your restaurant will be ready right away.">Rápida y sin complicaciones. Nosotros configuramos todo y colocamos los soportes. Tu restaurante estará listo de inmediato.</div>
-      </div>
-    </div>
-    <p class="faq-free-note" data-es="Empieza gratis. Elimina anuncios cuando quieras." data-en="Start for free. Remove ads whenever you want.">Empieza gratis. Elimina anuncios cuando quieras.</p>
   </div>
 </section>
 
 <!-- FINAL CTA -->
-<section id="cta" aria-labelledby="cta-title">
-  <div class="section-inner">
-    <div class="cta-inner reveal">
-      <h2 class="cta-title" id="cta-title" data-es="¿Listo para modernizar tu restaurante?" data-en="Ready to modernize your restaurant?">¿Listo para modernizar<br>tu restaurante?</h2>
-      <p class="cta-sub" data-es="Únete a los restaurantes que ya venden más con TapiScan." data-en="Join the restaurants already selling more with TapiScan.">Únete a los restaurantes que ya venden más con TapiScan.</p>
-      <div class="cta-buttons">
-        <a href="https://wa.me/50767317853" target="_blank" rel="noopener noreferrer" class="btn-primary" style="font-size:1rem;padding:16px 28px;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="flex-shrink:0" aria-hidden="true" focusable="false">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          <span data-es="Solicitar demo gratis por WhatsApp" data-en="Request free demo on WhatsApp">Solicitar demo gratis por WhatsApp</span>
-        </a>
-        <a href="tel:+50767317853" class="btn-secondary" style="font-size:1rem;padding:16px 28px;">
-          <span data-es="Llamar ahora" data-en="Call now">Llamar ahora</span>
-        </a>
-      </div>
-    </div>
+<section class="section final-cta-section">
+  <div class="container">
+    <h2 data-es="Prueba TapiScan con tu propio menú." data-en="Try TapiScan with your own menu.">Prueba TapiScan con tu propio menú.</h2>
+    <p data-es="Estoy montando demos con menús reales de restaurantes en Panamá. En 15 minutos puedes probar cómo respondería TapiScan con tu propio menú." data-en="I'm building demos with real restaurant menus in Panama. In 15 minutes you can see exactly how TapiScan would respond with your own menu.">
+      Estoy montando demos con menús reales de restaurantes en Panamá. En 15 minutos puedes probar cómo respondería TapiScan con tu propio menú.
+    </p>
+    <a href="https://wa.me/50760934767?text=Hola%2C%20quiero%20ver%20el%20demo%20de%20TapiScan%20con%20mi%20men%C3%BA"
+       class="btn-primary btn-primary--white"
+       target="_blank" rel="noopener noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="#065F46" aria-hidden="true">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+      <span data-es="Pedir demo por WhatsApp" data-en="Request demo on WhatsApp">Pedir demo por WhatsApp</span>
+    </a>
   </div>
 </section>
 
+</main>
+
 <!-- FOOTER -->
-<footer>
+<footer class="footer">
   <div class="footer-logo">
-    <img src="tapiscan-logo.png" alt="TapiScan" width="auto" height="26">
+    <img src="tapiscan-logo.png" alt="TapiScan" height="28">
   </div>
-  <p class="footer-copy" data-es="© 2025 TapiScan. Panamá. Todos los derechos reservados." data-en="© 2025 TapiScan. Panama. All rights reserved.">© 2025 TapiScan. Panamá. Todos los derechos reservados.</p>
-  <div class="footer-links">
-    <a href="https://wa.me/50767317853" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-    <a href="mailto:info@tapiscan.com">Email</a>
-    <a href="#" data-es="Privacidad" data-en="Privacy">Privacidad</a>
-  </div>
+  <p class="footer-copy" data-es="© 2025 TapiScan. Panama." data-en="© 2025 TapiScan. Panama.">© 2025 TapiScan. Panama.</p>
+  <a href="https://wa.me/50760934767" class="footer-wa" target="_blank" rel="noopener noreferrer">+507 6093-4767</a>
 </footer>
 
 <script>
-(function () {
-  'use strict';
-
-  /* ── SCROLL REVEAL ── */
-  const revealObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        e.target.classList.add('revealed');
-        revealObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.08 });
-
-  document.querySelectorAll('.reveal').forEach(function (el) {
-    revealObserver.observe(el);
-  });
-
-  /* ── NAVBAR SCROLL ── */
-  var navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', function () {
-    navbar.classList.toggle('scrolled', window.scrollY > 40);
-  }, { passive: true });
-
-  /* ── MOBILE MENU ── */
-  var mobileMenu = document.getElementById('mobileMenu');
-  var hamburgerBtn = document.getElementById('hamburgerBtn');
-  var mobileClose = document.getElementById('mobileClose');
-
-  function openMobileMenu() {
-    mobileMenu.classList.add('open');
-    document.body.style.overflow = 'hidden';
-    hamburgerBtn.setAttribute('aria-expanded', 'true');
-    mobileClose.focus();
-  }
-
-  function closeMobileMenu() {
-    mobileMenu.classList.remove('open');
-    document.body.style.overflow = '';
-    hamburgerBtn.setAttribute('aria-expanded', 'false');
-    hamburgerBtn.focus();
-  }
-
-  hamburgerBtn.addEventListener('click', openMobileMenu);
-  mobileClose.addEventListener('click', closeMobileMenu);
-
-  // Close mobile menu on nav link click
-  mobileMenu.querySelectorAll('a').forEach(function (link) {
-    link.addEventListener('click', closeMobileMenu);
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-      closeMobileMenu();
+// ── LANGUAGE TOGGLE ──
+function setLang(lang) {
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-es]').forEach(function(el) {
+    if (el.tagName !== 'INPUT' && el.tagName !== 'TEXTAREA') {
+      var val = el.dataset[lang] || el.dataset.es;
+      if (val !== undefined) el.textContent = val;
     }
   });
+  document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+  document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+  document.getElementById('btn-es').setAttribute('aria-pressed', String(lang === 'es'));
+  document.getElementById('btn-en').setAttribute('aria-pressed', String(lang === 'en'));
+  var tagline = document.getElementById('en-tagline');
+  if (tagline) tagline.style.display = lang === 'es' ? '' : 'none';
+  localStorage.setItem('lang', lang);
+  if (typeof runHeroChat === 'function') runHeroChat();
+}
 
-  /* ── FAQ ACCORDION ── */
-  var faqList = document.getElementById('faqList');
-  if (faqList) {
-    faqList.addEventListener('click', function (e) {
-      var btn = e.target.closest('.faq-q');
-      if (!btn) return;
-      var item = btn.parentElement;
-      var isOpen = item.classList.contains('open');
+// ── NAVBAR SCROLL SHADOW ──
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+}, { passive: true });
 
-      // Close all
-      faqList.querySelectorAll('.faq-item').forEach(function (i) {
-        i.classList.remove('open');
-        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-      });
+// ── MOBILE MENU ──
+document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+  var drawer = document.getElementById('mobile-drawer');
+  var open = drawer.classList.toggle('open');
+  this.setAttribute('aria-expanded', String(open));
+  drawer.setAttribute('aria-hidden', String(!open));
+});
+document.querySelectorAll('.mobile-nav-drawer a').forEach(function(a) {
+  a.addEventListener('click', function() {
+    var drawer = document.getElementById('mobile-drawer');
+    drawer.classList.remove('open');
+    document.getElementById('mobile-menu-btn').setAttribute('aria-expanded', 'false');
+    drawer.setAttribute('aria-hidden', 'true');
+  });
+});
 
-      // Open clicked if it was closed
-      if (!isOpen) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-    });
+// ── HERO CHAT ANIMATION ──
+var heroMessages = [
+  { side: 'out', es: 'Hola, ¿tienen mesa para 2 esta noche?', en: 'Hi, do you have a table for 2 tonight?' },
+  { side: 'in',  es: 'Claro. ¿A qué hora prefieren?', en: 'Of course. What time works for you?' },
+  { side: 'out', es: 'A las 8.', en: 'At 8.' },
+  { side: 'in',  es: 'Perfecto. Mesa para 2 a las 8:00 p.m. confirmada. Código RSV-0941.', en: 'Perfect. Table for 2 at 8:00 p.m. confirmed. Code RSV-0941.' }
+];
+var heroTimes = ['8:14 p.m.', '8:14 p.m.', '8:15 p.m.', '8:15 p.m.'];
+var heroChatTimer = null;
+
+function runHeroChat() {
+  var container = document.getElementById('hero-chat');
+  if (!container) return;
+  if (heroChatTimer) clearTimeout(heroChatTimer);
+  container.innerHTML = '';
+  var lang = localStorage.getItem('lang') || 'es';
+  var i = 0;
+
+  function addBubble(msg, time) {
+    var div = document.createElement('div');
+    div.className = 'wa-bubble ' + msg.side;
+    var text = document.createTextNode(lang === 'en' ? msg.en : msg.es);
+    var timeEl = document.createElement('div');
+    timeEl.className = 'wa-time';
+    timeEl.textContent = time;
+    div.appendChild(text);
+    div.appendChild(timeEl);
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
   }
 
-  /* ── DEMO ANIMATION ── */
-  var currentStep = 0;
-  var demoInterval = null;
-
-  function setDemoStep(step) {
-    currentStep = step;
-
-    var phone = document.getElementById('demoPhone');
-    var nfcPulse = document.getElementById('nfcPulse');
-    var phoneMenu = document.getElementById('phoneMenu');
-    var rings = nfcPulse.querySelectorAll('.nfc-ring');
-    var phoneImg = document.getElementById('phoneImg');
-
-    // Reset state
-    rings.forEach(function (r) { r.classList.remove('animating'); });
-    nfcPulse.classList.remove('active');
-    phoneMenu.classList.remove('visible');
-    phone.style.opacity = '1';
-
-    // Update active step indicator
-    document.querySelectorAll('.demo-step').forEach(function (s, i) {
-      s.classList.toggle('active', i === step);
-    });
-
-    // Swap hand image
-    var handMap = { 0: 'hand-1.png', 1: 'hand-1.png', 2: 'hand-2.png', 3: 'hand-3.png' };
-    phoneImg.src = handMap[step] || 'hand-1.png';
-
-    // Calculate responsive offsets
-    var stage = document.getElementById('demoStage');
-    var stageW = stage.offsetWidth;
-
-    if (step === 0) {
-      phone.style.right = '0px';
-      phone.style.transform = 'translateY(-50%)';
-      phoneMenu.style.right = '0px';
-    } else if (step === 1) {
-      var offset1 = Math.round(stageW * 0.18);
-      phone.style.right = offset1 + 'px';
-      phone.style.transform = 'translateY(-50%)';
-      phoneMenu.style.right = offset1 + 'px';
-    } else if (step === 2) {
-      var offset2 = Math.round(stageW * 0.36);
-      phone.style.right = offset2 + 'px';
-      phone.style.transform = 'translateY(-50%) rotate(-5deg)';
-      phoneMenu.style.right = offset2 + 'px';
-      nfcPulse.classList.add('active');
-      setTimeout(function () {
-        rings.forEach(function (r) { r.classList.add('animating'); });
-      }, 50);
-    } else if (step === 3) {
-      var offset3 = Math.round(stageW * 0.36);
-      phone.style.right = offset3 + 'px';
-      phone.style.transform = 'translateY(-50%) rotate(-5deg)';
-      phone.style.opacity = '0.15';
-      phoneMenu.style.right = offset3 + 'px';
-      nfcPulse.classList.add('active');
-      setTimeout(function () {
-        rings.forEach(function (r) { r.classList.add('animating'); });
-      }, 50);
-      setTimeout(function () {
-        phoneMenu.classList.add('visible');
-      }, 200);
+  function nextMsg() {
+    if (i >= heroMessages.length) {
+      heroChatTimer = setTimeout(function() {
+        container.innerHTML = '';
+        i = 0;
+        lang = localStorage.getItem('lang') || 'es';
+        nextMsg();
+      }, 3200);
+      return;
+    }
+    var msg = heroMessages[i];
+    if (msg.side === 'in') {
+      var typing = document.createElement('div');
+      typing.className = 'wa-typing';
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      container.appendChild(typing);
+      container.scrollTop = container.scrollHeight;
+      heroChatTimer = setTimeout(function() {
+        typing.remove();
+        addBubble(msg, heroTimes[i]);
+        i++;
+        heroChatTimer = setTimeout(nextMsg, 500);
+      }, 950);
+    } else {
+      heroChatTimer = setTimeout(function() {
+        addBubble(msg, heroTimes[i]);
+        i++;
+        nextMsg();
+      }, 420);
     }
   }
+  heroChatTimer = setTimeout(nextMsg, 600);
+}
 
-  // Click handler for demo steps
-  document.querySelectorAll('.demo-step').forEach(function (stepEl) {
-    stepEl.addEventListener('click', function () {
-      setDemoStep(parseInt(this.getAttribute('data-step'), 10));
-    });
-    // Keyboard accessibility
-    stepEl.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        setDemoStep(parseInt(this.getAttribute('data-step'), 10));
-      }
-    });
+// ── DEMO CHAT (RESERVATION MOCKUP) ──
+var demoMessages = [
+  { side: 'out', text: 'Hi, do you have a table for 4 tomorrow at 8pm?' },
+  { side: 'in',  text: 'Of course. A table for 4 tomorrow at 8:00 p.m. May I have a name for the reservation?' },
+  { side: 'out', text: 'Sarah' },
+  { side: 'in',  text: 'Perfect, Sarah. Your table for 4 is confirmed for tomorrow at 8:00 p.m. Reservation code RSV-1042. We look forward to seeing you.' }
+];
+var demoTimes = ['7:58 p.m.', '7:58 p.m.', '7:59 p.m.', '7:59 p.m.'];
+
+function runDemoChat() {
+  var container = document.getElementById('demo-chat');
+  if (!container || container.dataset.ran) return;
+  container.dataset.ran = '1';
+  var i = 0;
+
+  function addDemoBubble(msg, time) {
+    var div = document.createElement('div');
+    div.className = 'wa-bubble ' + msg.side;
+    var text = document.createTextNode(msg.text);
+    var timeEl = document.createElement('div');
+    timeEl.className = 'wa-time';
+    timeEl.textContent = time;
+    div.appendChild(text);
+    div.appendChild(timeEl);
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function next() {
+    if (i >= demoMessages.length) {
+      setTimeout(function() {
+        var notif = document.getElementById('panel-notif');
+        if (notif) notif.classList.add('visible');
+        var placeholder = document.querySelector('.panel-placeholder');
+        if (placeholder) placeholder.style.display = 'none';
+      }, 600);
+      return;
+    }
+    var msg = demoMessages[i];
+    if (msg.side === 'in') {
+      var typing = document.createElement('div');
+      typing.className = 'wa-typing';
+      typing.innerHTML = '<span></span><span></span><span></span>';
+      container.appendChild(typing);
+      container.scrollTop = container.scrollHeight;
+      setTimeout(function() {
+        typing.remove();
+        addDemoBubble(msg, demoTimes[i]);
+        i++;
+        setTimeout(next, 500);
+      }, 1100);
+    } else {
+      setTimeout(function() {
+        addDemoBubble(msg, demoTimes[i]);
+        i++;
+        next();
+      }, 500);
+    }
+  }
+  setTimeout(next, 400);
+}
+
+var demoObserver = new IntersectionObserver(function(entries) {
+  if (entries[0].isIntersecting) {
+    runDemoChat();
+    demoObserver.disconnect();
+  }
+}, { threshold: 0.25 });
+var demoSection = document.getElementById('reserva-demo');
+if (demoSection) demoObserver.observe(demoSection);
+
+// ── SCROLL REVEAL ──
+var revealObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
   });
+}, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.fade-in').forEach(function(el) { revealObserver.observe(el); });
 
-  // Auto-advance when demo section is in view
-  var demoSection = document.getElementById('demo');
-  if (demoSection) {
-    var demoObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) {
-          demoInterval = setInterval(function () {
-            currentStep = (currentStep + 1) % 4;
-            setDemoStep(currentStep);
-          }, 2500);
-        } else {
-          clearInterval(demoInterval);
-          setDemoStep(0);
-        }
-      });
-    }, { threshold: 0.4 });
-    demoObserver.observe(demoSection);
-  }
+// Stagger delays for grid children
+document.querySelectorAll('.pain-grid .pain-card, .includes-grid .include-card').forEach(function(el, i) {
+  el.style.transitionDelay = (i * 75) + 'ms';
+});
 
-  /* ── LANGUAGE TOGGLE ── */
-  var currentLang = 'es';
-  var btnLangEs = document.getElementById('btnLangEs');
-  var btnLangEn = document.getElementById('btnLangEn');
-
-  function setLang(lang) {
-    currentLang = lang;
-    document.querySelectorAll('[data-es]').forEach(function (el) {
-      var val = el.getAttribute('data-' + lang);
-      if (val) el.textContent = val;
-    });
-    btnLangEs.classList.toggle('active', lang === 'es');
-    btnLangEn.classList.toggle('active', lang === 'en');
-    btnLangEs.setAttribute('aria-pressed', lang === 'es' ? 'true' : 'false');
-    btnLangEn.setAttribute('aria-pressed', lang === 'en' ? 'true' : 'false');
-    document.documentElement.lang = lang;
-  }
-
-  btnLangEs.addEventListener('click', function () { setLang('es'); });
-  btnLangEn.addEventListener('click', function () { setLang('en'); });
-
-})();
+// ── INIT ──
+window.addEventListener('DOMContentLoaded', function() {
+  setLang(localStorage.getItem('lang') || 'es');
+});
 </script>
 </body>
 </html>
