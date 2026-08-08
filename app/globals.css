@@ -9308,6 +9308,26 @@ body {
   font-size: 0.9rem !important;
   opacity: 0.6;
 }
+.home-footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.9rem;
+}
+.home-footer-legal-link {
+  color: rgba(20, 35, 55, 0.6);
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: color 180ms ease;
+}
+.home-footer-legal-link:hover {
+  color: var(--mint);
+}
+@media (max-width: 760px) {
+  .home-footer-legal {
+    gap: 0.75rem 1rem;
+  }
+}
 
 /* ── Responsive ── */
 @media (max-width: 900px) {
@@ -9347,4 +9367,116 @@ body {
   .wa-reveal { transition: none; opacity: 1; transform: none; }
   .wa-bubble { animation: none; }
   .wa-typing span { animation: none; }
+}
+
+/* Legal pages */
+.legal-page {
+  padding: 3.5rem 0 6rem;
+}
+
+.legal-shell {
+  width: min(100% - 2.5rem, 46rem);
+  margin-inline: auto;
+}
+
+.legal-back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--blue, #2f6f9f);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.legal-back-link:hover {
+  text-decoration: underline;
+}
+
+.legal-title {
+  margin: 0.9rem 0 0.4rem;
+  color: var(--ink);
+  font-size: 2.35rem;
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.legal-updated {
+  margin: 0 0 2.5rem;
+  color: var(--faint);
+  font-size: 0.85rem;
+}
+
+.legal-intro {
+  margin: 0 0 2.25rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.legal-article h2 {
+  margin: 2.5rem 0 0.9rem;
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.legal-article h2:first-child {
+  margin-top: 0;
+}
+
+.legal-article h3 {
+  margin: 1.6rem 0 0.6rem;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.legal-article p {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.legal-article ul,
+.legal-article ol {
+  margin: 0 0 1.25rem;
+  padding-left: 1.35rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+  line-height: 1.75;
+}
+
+.legal-article li {
+  margin-bottom: 0.5rem;
+}
+
+.legal-article a {
+  color: var(--blue, #2f6f9f);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-article strong {
+  color: var(--ink);
+}
+
+.legal-article hr {
+  margin: 2.5rem 0;
+  border: none;
+  border-top: 1px solid var(--line);
+}
+
+.legal-footer-back {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 640px) {
+  .legal-title {
+    font-size: 1.85rem;
+  }
 }

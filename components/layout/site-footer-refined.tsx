@@ -43,11 +43,14 @@ export function SiteFooterRefined() {
             </a>
           </div>
           <div className="home-footer-legal">
-            <a href="/privacidad" className="home-footer-legal-link">
+            <a href="/privacy" className="home-footer-legal-link">
               {locale === "en" ? "Privacy" : "Privacidad"}
             </a>
-            <a href="/terminos" className="home-footer-legal-link">
+            <a href="/terms" className="home-footer-legal-link">
               {locale === "en" ? "Terms" : "Términos"}
+            </a>
+            <a href="/data-deletion" className="home-footer-legal-link">
+              {locale === "en" ? "Data Deletion" : "Eliminar datos"}
             </a>
             <a
               href={demoHref[locale]}
@@ -102,11 +105,14 @@ export function SiteFooterRefined() {
                 {item.label}
               </Link>
             ))}
-            <Link href="/privacidad">
+            <Link href="/privacy">
               {locale === "en" ? "Privacy" : "Privacidad"}
             </Link>
-            <Link href="/terminos">
+            <Link href="/terms">
               {locale === "en" ? "Terms" : "Términos"}
+            </Link>
+            <Link href="/data-deletion">
+              {locale === "en" ? "Data Deletion" : "Eliminar datos"}
             </Link>
           </div>
         </div>
